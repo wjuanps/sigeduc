@@ -106,21 +106,6 @@
 
 	<div class="box box-warning">
 		<div class="box-body">
-
-			<div class="row-fluid">
-				<div class="form-group col-md-12">
-					@if ($errors->any())
-					<div class="alert alert-danger">
-						<ul>
-							@foreach ($errors->all() as $error)
-							<li>{{ $error }}</li>
-							@endforeach
-						</ul>
-					</div>
-					@endif
-				</div>
-			</div>
-
 			<button class="btn btn-primary cadastrar-turma" type="button"><i class="fa fa-print fw"></i> Imprimir</button>
 			<a class="btn btn-danger cadastrar-turma" href="{{ Route('home') }}"><i class="fa fa-times fw"></i> Cancelar</a>
 		</div>

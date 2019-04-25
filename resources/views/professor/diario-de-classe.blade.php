@@ -57,16 +57,39 @@
 		</div><!-- /.box-body -->
 	</div>
 
-	<div class="box box-info">
+	<div class="box box-gray">
 		<div class="box-header with-border">
 			<h3 class="box-title">Diário de Classe</h3>
 		</div><!-- /.box-header -->
 		<!-- form start -->
 		<div class="box-body">
 			<div class="row-fluid">
+
+				<div class="form-group">
+					<div class="col-md-12">
+						<table class="table table-responsive table-bordered">
+							<tr><td class="bg-gray text-center" style="font-size: 15pt; font-weight: 600; color: #193774" colspan="3">Diário de Classe</td></tr>
+							<tr>
+								<td class="bg-gray" style="width: 20%">Turma</td>
+								<td><span id="diarioTurma"></span></td>
+								<td><span id="diarioModalidade"></span></td>
+							</tr>
+							<tr>
+								<td class="bg-gray" style="width: 20%">Docente</td>
+								<td colspan="2"><span id="diarioDocente"></span></td>
+							</tr>
+							<tr>
+								<td class="bg-gray" style="width: 20%">Disciplina</td>
+								<td><span id="diarioDisciplina"></span></td>
+								<td>Data:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;{{ date_format(date_create(), 'Y') }}</td>
+							</tr>
+						</table>
+					</div>
+				</div>
+
 				<div class="form-group col-md-12">
 					<table class="table table-bordered table-responsive" id="tabelaDiario">
-						<thead>
+						<thead class="bg-gray">
 							<tr>
 								<th>#</th>
 								<th>Matricula</th>

@@ -348,12 +348,16 @@ var gerarDiarioClasse = function () {
                 if (!!response) {
                     try {
                         response.forEach(function (e, i) {
+                            $('#diarioTurma').text(e.turma.concat(' - (').concat(response.length).concat(' alunos)'));
+                            $('#diarioModalidade').text(e.modalidade);
+                            $('#diarioDocente').text(e.docente);
+                            $('#diarioDisciplina').text(e.disciplina);
                             _table.append(
                                 "<tr>" +
                                     "<td>" + (i + 1) + "</td>" +
                                     "<td>" + e.matricula + "</td>" +
                                     "<td>" + e.discente + "</td>" +
-                                    "<td style='width: 50%'></td>" +
+                                    "<td style='width: 60%'></td>" +
                                 "</tr>"
                             );
                         });

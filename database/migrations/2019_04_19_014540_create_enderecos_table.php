@@ -17,12 +17,12 @@ class CreateEnderecosTable extends Migration {
     public function up() {
         Schema::create('enderecos', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('bairro', 100)->nullable();
-            $table->string('cep', 12)->nullable();
-            $table->string('cidade', 150)->nullable();
+            $table->string('bairro', 100);
+            $table->string('cep', 12);
+            $table->string('cidade', 150);
+            $table->string('rua', 100);
+            $table->string('uf', 2);
             $table->string('complemento', 100)->nullable();
-            $table->string('rua', 100)->nullable();
-            $table->string('uf', 2)->nullable();
             $table->timestamps();
         });
     }

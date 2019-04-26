@@ -20,11 +20,11 @@ class CreateFuncionariosTable extends Migration {
             $table->bigInteger('pessoa_id')->unsigned();
             $table->foreign('pessoa_id')->references('id')->on('pessoas');
             $table->date('data_emissao_carteira');
-            $table->integer('qtd_dependentes');
+            $table->integer('qtd_dependentes')->default(0);
             $table->string('escolaridade', 35);
-            $table->string('numero_ctps', 40);
-            $table->string('numero_pis', 30);
-            $table->string('serie_ctps', 40);
+            $table->string('numero_ctps', 40)->unique();
+            $table->string('numero_pis', 30)->unique();
+            $table->string('serie_ctps', 40)->unique();
             $table->tinyInteger('is_usuario')->default(0);
             $table->tinyInteger('is_active')->default(1);
             $table->timestamps();

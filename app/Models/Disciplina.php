@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -19,22 +21,53 @@ class Disciplina extends Model {
     
     /**
      * 
+     * @* @param Request $request
+     * 
+     * @return Disciplina
+     */
+    public function salvarDisciplina(Request $request) : Disciplina {
+        $request->validate([
+            'disciplina' => 'required|unique:disciplinas|max:100',
+            'descricao'  => 'required'
+        ]);
+
+        DB::transaction(function () {
+            return $this->create([
+                'disciplina' => $request->disciplina,
+                'descricao'  => $request->descricao
+            ]);
+        });
+        return null;
+    }
+
+    /**
+     * 
+     * @* @param Request $request
+     * 
+     * @return Disciplina
+     */
+    public function updateDisciplina(Request $request) : Disciplina {
+        return $this->update($request->all());
+    }
+
+    /**
+     * 
      */
     public function frequencias() {
-        return $this->hasMany('App\Models\Frequencia');
+        return $this->hasMany(Frequencia::class);
     }
 
     /**
      * 
      */
     public function professores() {
-        return $this->belongsToMany('App\Models\Professor', 'professor_has_disciplinas');
+        return $this->belongsToMany(Professor::class, 'professor_has_disciplinas');
     }
     
     /**
      * 
      */
     public function turmas() {
-        return $this->belongsToMany('App\Models\Turma', 'professor_has_turmas');
+        return $this->belongsToMany(Turma::class, 'professor_has_turmas');
     }
 }

@@ -19,12 +19,12 @@ class CreatePessoasTable extends Migration {
             $table->bigIncrements('id');
             $table->bigInteger('endereco_id')->unsigned();
             $table->foreign('endereco_id')->references('id')->on('enderecos');
-            $table->string('celular', 25)->nullable();
+            $table->string('celular', 25);
             $table->string('cpf', 25)->unique();
+            $table->string('email', 100)->unique();
             $table->date('data_nascimento');
-            $table->string('email', 100)->nullable();
             $table->string('foto', 100)->nullable();
-            $table->string('rg', 25)->nullable();
+            $table->string('rg', 25)->unique();
             $table->string('nacionalidade', 100)->nullable();
             $table->string('naturalidade', 100)->nullable();
             $table->string('nome', 100);

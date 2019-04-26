@@ -301,7 +301,7 @@ var buscarDisciplinas = function (id) {
 var buscarTurmas = function (id) {
     $.ajax({
         type: 'GET',
-        url: '/professor/get/turmas/'.concat(id + '/').concat(diarioClasse.idProfessor),
+        url: '/turma/get/turmas/'.concat(id + '/').concat(diarioClasse.idProfessor),
         dataType: 'json',
         success: function (response) {
             let _select = $('.select-turma');
@@ -441,7 +441,7 @@ var filtrarTurmas = function () {
     _table.empty();
     $.ajax({
         type: 'GET',
-        url: '/turma/get/' + JSON.stringify(_filter),
+        url: '/turma/get/turmas/' + JSON.stringify(_filter),
         dataType: 'json',
         success: function (response) {
             if (!!response) {
@@ -484,9 +484,9 @@ var selecionarTurma = function (turma) {
  * 
  */
 var cadastrarTurma = function () {
-    let _disciplinas = JSON.stringify(disciplinasProfessor);
+    let _professores = JSON.stringify(disciplinasProfessor);
     let _alunos = JSON.stringify(alunosMatriculados);
-    $('#disciplinas').val(_disciplinas);
+    $('#professores').val(_professores);
     $('#alunos').val(_alunos);
 
     $('#formCadastrarTurma').submit();
@@ -678,8 +678,8 @@ var salvarDadosResponsavel = function () {
             }
         };
         
-        $('input:checkbox').prop('checked', false);
-        $('input:radio').prop('checked', false);
+        $('#moraComOFilho').prop('checked', false);
+        $('#outroFilhoNaEscola').prop('checked', false);
         $("#sexoResponsavel").prop('checked', true);
         $('#nomeResponsavel').val('');
         $('#nascimentoResponsavel').val('');

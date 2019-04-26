@@ -64,16 +64,19 @@ class CargoFuncaoController extends Controller {
      * @* @param Request $request
      */
     public function store(Request $request) {
-        $request->validate([
-            'cargo_funcao' => 'required|unique:cargo_funcaos|max:100',
-            'descricao' => 'required'
-        ]);
-
-        CargoFuncao::create([
-            'cargo_funcao' => $request->cargo_funcao,
-            'descricao'  => $request->descricao
-        ]);
-
+        $cargoFuncao = new CargoFuncao;
+        $cargoFuncao->salvarCargoFuncao($request);
         return $this->index();
     }
+
+    /**
+     * 
+     * @* @param Request $request
+     */
+    public function update(Request $request) {
+        $cargoFuncao = CargoFuncao::findOrFail($request->id);
+        $cargoFuncao->updateCargoFuncao($request);
+        return $this->index();
+    }
+
 }

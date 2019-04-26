@@ -41,6 +41,20 @@
 				</div>
             </div>
 
+			<div class="row-fluid">
+				<div class="form-group col-md-12">
+					@if ($errors->any())
+					<div class="alert alert-danger">
+						<ul>
+							@foreach ($errors->all() as $error)
+							<li>{{ $error }}</li>
+							@endforeach
+						</ul>
+					</div>
+					@endif
+				</div>
+			</div>
+
             <div class="row-fluid">
                 <div class="form-group col-md-12"><br />
                     <button class="btn btn-primary" type="submit"><i class="fa fa-external-link-square fw"></i> Salvar Alterações</button>

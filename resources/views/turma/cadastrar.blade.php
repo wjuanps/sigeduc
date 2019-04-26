@@ -158,7 +158,7 @@
                             
                         </tbody>
                     </table>
-                    <input type="hidden" class="form-control" id="disciplinas" name="disciplinas" />
+                    <input type="hidden" class="form-control" id="professores" name="professores" />
                 </div>
 			</div>
 		</div><!-- /.box-body -->

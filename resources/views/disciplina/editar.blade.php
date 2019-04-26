@@ -13,7 +13,7 @@
 @endsection
 
 @section('content')
-<form action="{{ Route('professor-teste') }}" method="POST">
+<form action="{{ Route('update-disciplina') }}" method="POST">
 	@csrf
 
 	<div class="box box-primary">
@@ -22,6 +22,9 @@
 		</div><!-- /.box-header -->
 		<!-- form start -->
 		<div class="box-body">
+
+			<input type="hidden" value="{{ $disciplina->id }}" />
+
 			<div class="row-fluid">
 				<div class="form-group col-md-6">
                     <label for="disciplina">Disciplina</label>

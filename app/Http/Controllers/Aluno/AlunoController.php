@@ -100,25 +100,30 @@ class AlunoController extends Controller {
     }
     
     public function teste(Request $request) {
-        $request->validate([
-            'cpf' => 'required|unique:pessoas',
-            'nome' => 'required|max:150',
-            'email' => 'required|max:150|email',
-            'data_nascimento' => 'required',
-            'sexo' => 'required',
-            'rua' => 'required',
-            'bairro' => 'required',
-            'uf' => 'required',
-            'cep' => 'required',
-            'celular' => 'required',
-            'responsaveisAluno' => 'required|json'
-        ]);
+        // $request->validate([
+        //     'cpf' => 'required|unique:pessoas',
+        //     'nome' => 'required|max:150',
+        //     'email' => 'required|max:150|email',
+        //     'data_nascimento' => 'required',
+        //     'sexo' => 'required',
+        //     'rua' => 'required',
+        //     'bairro' => 'required',
+        //     'uf' => 'required',
+        //     'cep' => 'required',
+        //     'celular' => 'required',
+        //     'responsaveisAluno' => 'required|json'
+        // ]);
  
-        $responsaveis = json_decode($request->responsaveisAluno);
+        // $responsaveis = json_decode($request->responsaveisAluno);
 
-        foreach ($responsaveis as $responsavel) {
-            dd($responsavel->responsavel);
-        }
-        
+        // foreach ($responsaveis as $responsavel) {
+        //     dd($responsavel->responsavel);
+        // }
+        // dd($request->all());
+
+        $aluno = new Aluno;
+        $aluno->salvarAluno($request);
+
+        dd($request->all());
     }
 }

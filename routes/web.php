@@ -81,12 +81,6 @@ Route::prefix('professor')->group(function () {
      *
      * @return
      */
-    Route::get('get/turmas/{idDisciplina}/{idProfessor}', 'Professor\DisciplinaController@getTurmas')->name('get-turmas');
-    /**
-     * 
-     *
-     * @return
-     */
     Route::get('disciplina/cadastrar', 'Professor\DisciplinaController@cadastrar')->name('cadastrar-disciplina');
     /**
      * 
@@ -94,6 +88,12 @@ Route::prefix('professor')->group(function () {
      * @return
      */
     Route::get('disciplina/editar/{id}', 'Professor\DisciplinaController@editar')->name('editar-disciplina');
+    /**
+     * 
+     *
+     * @return
+     */
+    Route::post('disciplina/editar', 'Professor\DisciplinaController@update')->name('update-disciplina');
     /**
      * 
      *
@@ -329,7 +329,13 @@ Route::prefix('turma')->group(function () {
      *
      * @return
      */
-    Route::get('get/{turmas}', 'Turma\TurmaController@getTurmas')->name('get-turmas');
+    Route::get('get/turmas/{filter}', 'Turma\TurmaController@getTurmasAluno')->name('get-turmas-aluno');
+    /**
+     * 
+     *
+     * @return
+     */
+    Route::get('get/turmas/{idDisciplina}/{idProfessor}', 'Turma\TurmaController@getTurmasProfessor')->name('get-turmas-professor');
     /**
      * 
      *

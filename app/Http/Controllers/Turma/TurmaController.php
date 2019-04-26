@@ -70,7 +70,7 @@ class TurmaController extends Controller {
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function getTurmas($filter) {
+    public function getTurmasAluno($filter) {
         $filter = json_decode($filter);
         $turmas = Turma::where([
                             ['modalidade', '=', $filter->modalidade],
@@ -80,7 +80,22 @@ class TurmaController extends Controller {
         return json_encode($turmas);
     }
 
-    
+    /**
+     * 
+     */
+    public function getTurmasProfessor($idDisciplina, $idProfessor) {
+        $turmas = Disciplina::join('professor_has_turmas', 'disciplinas.id', '=', 'professor_has_turmas.disciplina_id')
+                                ->join('turmas', 'turmas.id', 'professor_has_turmas.turma_id')
+                                ->join('professors', 'professors.id', 'professor_has_turmas.professor_id')
+                                ->where([
+                                    ['disciplinas.id' ,'=', $idDisciplina],
+                                    ['professors.id' ,'=', $idProfessor]
+                                ])
+                                ->select('turmas.id', 'turmas.turma')
+                                ->get();
+        return json_encode($turmas);
+    }
+
     /**
      * 
      * @* @param \Illuminate\Http\Request $request
@@ -88,51 +103,9 @@ class TurmaController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function store(Request $request) {
-        $request->validate([
-            'turma' => 'required|unique:turmas',
-            'serie' => 'required|max:150',
-            'turno' => 'required|max:150',
-            'modalidade' => 'required',
-            'disciplinas' => 'required|json',
-            'alunos' => 'required|json|min:1'
-        ]);
-
-        $turma = Turma::create([
-            'escola_id' => 1,
-            'turma' => $request->turma,
-            'serie' => $request->serie,
-            'turno' => $request->turno,
-            'modalidade' => $request->modalidade,
-            'descriao_turma' => $request->descriao_turma,
-            'descricao_serie' => $request->descricao_serie,
-            'desativada_em' => date_create()
-        ]);
-        
-        $disciplinas = json_decode($request->disciplinas);
-        if (isset($disciplinas) && count($disciplinas) > 0) {
-            foreach ($disciplinas as $disciplina) {
-                ProfessorHasTurma::create([
-                    'professor_id' => $disciplina->idProfessor,
-                    'turma_id' => $turma->id,
-                    'disciplina_id' => $disciplina->idDisciplina
-                ]);
-            }
-        }
-        
-        $alunos = json_decode($request->alunos);
-        if (isset($alunos) && count($alunos) > 0) {
-            foreach ($alunos as $aluno) {
-                AlunoHasTurma::create([
-                    'turma_id' => $turma->id,
-                    'aluno_id' => $aluno->id,
-                    'ano' => date_format(date_create(), 'Y'),
-                    'is_repetente' => 0
-                ]);
-            }
-        }
-
+        $turma = new Turma;
+        $turma->salvarTurma($request);
         return $this->index();
-        
     }
 
     public function teste(Request $request) {

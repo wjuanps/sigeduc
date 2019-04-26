@@ -100,8 +100,8 @@ class ProfessorController extends Controller {
                         ->join('alunos', 'alunos.id', '=', 'aluno_has_turmas.aluno_id')
                         ->join('pessoas as p2', 'p2.id', '=', 'alunos.pessoa_id')
                         ->where([
-                            ['turmas.id', '=', $idTurma],
-                            ['professors.id', '=', $idProfessor],
+                            ['turmas.id',      '=', $idTurma],
+                            ['professors.id',  '=', $idProfessor],
                             ['disciplinas.id', '=', $idDisciplina]
                         ])
                         ->select([
@@ -134,75 +134,10 @@ class ProfessorController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function store(Request $request) {
-        $request->validate([
-            'cpf' => 'required|unique:pessoas',
-            'nome' => 'required|max:150',
-            'email' => 'required|max:150|email',
-            'data_nascimento' => 'required',
-            'sexo' => 'required',
-            'rua' => 'required',
-            'bairro' => 'required',
-            'uf' => 'required',
-            'cep' => 'required',
-            'celular' => 'required',
-            'formacoes' => 'required|json',
-            'disciplinas' => 'required|array'
-        ]);
-
-        $dataNascimento = explode('/', $request->data_nascimento);
-        $dataNascimento = implode('-', array_reverse($dataNascimento));
-
-        $endereco = Endereco::create([
-            'rua' => $request->rua,
-            'bairro' => $request->bairro,
-            'cep' => $request->cep,
-            'cidade' => $request->cidade,
-            'complemento' => $request->complemento,
-            'uf' => $request->uf
-        ]);
-
-        $pessoa = Pessoa::create([
-            'endereco_id' => $endereco->id,
-            'celular' => $request->celular,
-            'cpf' => $request->cpf,
-            'data_nascimento' => $dataNascimento,
-            'email' => $request->email,
-            'rg' => $request->rg,
-            'foto' => $request->foto,
-            'nacionalidade' => $request->nacionalidade,
-            'naturalidade' => $request->naturalidade,
-            'nome' => $request->nome,
-            'sexo' => $request->sexo,
-            'telefone' => $request->telefone,
-            'naturalidade_uf' => $request->naturalidade_uf
-        ]);
-
-        $professor = Professor::create([
-            'pessoa_id' => $pessoa->id
-        ]);
-
-        foreach ($request->disciplinas as $disciplina) {
-            ProfessorHasDisciplina::create([
-                'professor_id' => $professor->id,
-                'disciplina_id' => $disciplina
-            ]);
-        }
-
-        $formacoes = json_decode($request->formacoes);
-        foreach ($formacoes as $formacao) {
-            Formacao::create([
-                'professor_id' => $professor->id,
-                'ano_inicio' => $formacao->anoInicio,
-                'ano_termino' => $formacao->anoTermino,
-                'curso' => $formacao->curso,
-                'diploma' => null,
-                'instituicao' => $formacao->instituicao,
-                'titulo' => $formacao->titulo,
-            ]);
-        }
+        $professor = new Professor;
+        $professor->salvarProfessor($request);
 
         return $this->index();
-
     }
 
     public function teste(Request $request) {

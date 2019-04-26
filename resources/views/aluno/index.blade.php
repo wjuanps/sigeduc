@@ -34,7 +34,7 @@
 				@isset($alunos)
 					@foreach($alunos as $aluno)
 						<tr>
-							<td>{{ $aluno->id }}</td>
+							<td>{{ $aluno->matricula }}</td>
 							<td>{{ $aluno->pessoa->nome }}</td>
 							<td>{{ $aluno->pessoa->telefone }}</td>
 							<td>{{ $aluno->pessoa->celular }}</td>

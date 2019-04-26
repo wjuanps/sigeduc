@@ -59,39 +59,24 @@ class DisciplinaController extends Controller {
         $disciplinas = Professor::find($idProfessor)->disciplinas;
         return json_encode($disciplinas);
     }
-
-    /**
-     * 
-     */
-    public function getTurmas($idDisciplina, $idProfessor) {
-        $turmas = Disciplina::join('professor_has_turmas', 'disciplinas.id', '=', 'professor_has_turmas.disciplina_id')
-                                ->join('turmas', 'turmas.id', 'professor_has_turmas.turma_id')
-                                ->join('professors', 'professors.id', 'professor_has_turmas.professor_id')
-                                ->where([
-                                    ['disciplinas.id' ,'=', $idDisciplina],
-                                    ['professors.id' ,'=', $idProfessor]
-                                ])
-                                ->select('turmas.id', 'turmas.turma')
-                                ->get();
-        return json_encode($turmas);
-    }
-
     
     /**
      * 
      * @* @param Request $request
      */
     public function store(Request $request) {
-        $request->validate([
-            'disciplina' => 'required|unique:disciplinas|max:100',
-            'descricao' => 'required'
-        ]);
+        $disciplina = new Disciplina;
+        $disciplina->salvarDisciplina($request);
+        return $this->index();
+    }
 
-        Disciplina::create([
-            'disciplina' => $request->disciplina,
-            'descricao'  => $request->descricao
-        ]);
-
+    /**
+     * 
+     * @* @param Request $request
+     */
+    public function update(Request $request) {
+        $disciplina = Disciplina::findOrFail($request->id);
+        $disciplina->updateDisciplina($request);
         return $this->index();
     }
 

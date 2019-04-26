@@ -344,7 +344,7 @@
 				<div class="form-group col-md-3 hidden" id="salvarDadosResponsavel">
 					<br /><button class="btn btn-primary" type="button">Salvar dados do Responsável</button>
 				</div>
-
+ 
 				<div class="form-group col-md-3">
 					<div class="checkbox" style="margin-top: 30px">
 						<label>

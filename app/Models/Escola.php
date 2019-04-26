@@ -14,6 +14,6 @@ class Escola extends Model {
      * 
      */
     public function endereco() {
-        return $this->belongsTo('App\Models\Endereco');
+        return $this->belongsTo(Endereco::class);
     }
 }

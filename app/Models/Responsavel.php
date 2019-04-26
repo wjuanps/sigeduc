@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Validator;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -18,16 +19,29 @@ class Responsavel extends Model {
     
     /**
      * 
+     * @return Responsavel
+     */
+    public function salvarResponsavel($responsavel) {
+        $validator = Validator::make((array) $responsavel, [
+            'nome' => 'required'
+        ])->validate();
+
+        dd($responsavel);
+
+    }
+
+    /**
+     * 
      */
     public function pessoa() {
-        return $this->belongsTo('App\Models\Pessoa');
+        return $this->belongsTo(Pessoa::class);
     }
 
     /**
      * 
      */
     public function filhos() {
-        return $this->belongsToMany('App\Models\Aluno', 'aluno_has_responsavels')
+        return $this->belongsToMany(Aluno::class, 'aluno_has_responsavels')
                         ->withPivot('parentesco', 'mora_com_filho', 'outro_filho_na_escola');
     }
 

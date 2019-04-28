@@ -20,9 +20,9 @@ class CreateAlunosTable extends Migration {
             $table->bigInteger('pessoa_id')->unsigned();
             $table->foreign('pessoa_id')->references('id')->on('pessoas');
             $table->string('matricula', 15)->unique();
-            $table->tinyInteger('pai_declarado');
-            $table->tinyInteger('pratica_ed_fisica');
-            $table->tinyInteger('irmao_na_escola');
+            $table->tinyInteger('pai_declarado')->default(0);
+            $table->tinyInteger('pratica_ed_fisica')->default(0);
+            $table->tinyInteger('irmao_na_escola')->default(0);
             $table->timestamps();
         });
     }

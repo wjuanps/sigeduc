@@ -41,13 +41,14 @@
 							<td>{{ $aluno->pessoa->email }}</td>
 							<td>
 								<div class="btn-group">
-									<a href="{{ Route('editar-aluno', $aluno->id) }}" class="btn btn-info btn-flat btn-sm">Editar</a>
+									<button class="btn btn-info btn-flat btn-sm" data-toggle="dropdown" aria-expanded="false">Ações</button>
 									<button type="button" class="btn btn-info btn-flat btn-sm dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
 										<span class="caret"></span>
 										<span class="sr-only">Toggle Dropdown</span>
 									</button>
 									<ul class="dropdown-menu" role="menu">
 										<li><a href="{{ Route('editar-aluno', $aluno->id) }}">Editar</a></li>
+										<li><a href="{{ Route('editar-turmas-aluno', $aluno->id) }}">Editar Turmas</a></li>
 										<li><a href="#">Gerar Histórico</a></li>
 										<li><a href="#">Gerar Boletim</a></li>
 										<li><a href="#">Gerar Declaração</a></li>

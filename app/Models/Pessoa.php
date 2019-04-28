@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Http\Request;
+use Validator;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -20,10 +20,12 @@ class Pessoa extends Model {
 
     /**
      * 
-     * @* @param Request $request
+     * @* @param Pessoa $pessoa
+     * 
+     * @return Pessoa
      */
-    public function salvarPessoa(Request $request) : Pessoa {
-        $request->validate([
+    public function salvarPessoa($pessoa) : Pessoa {
+        Validator::make((array) $pessoa, [
             'cpf'             => 'required|max:25|unique:pessoas',
             'rg'              => 'required|max:25|unique:pessoas',
             'nome'            => 'required|max:150',
@@ -31,28 +33,32 @@ class Pessoa extends Model {
             'data_nascimento' => 'required',
             'sexo'            => 'required',
             'celular'         => 'required'
-        ]);
+        ])->validate();
 
         $endereco = new Endereco;
-        $endereco = $endereco->salvarEndereco($request);
+        $endereco = $endereco->salvarEndereco($pessoa);
 
-        $dataNascimento = explode('/', $request->data_nascimento);
+        if (is_array($pessoa)) {
+            $pessoa = (object) $pessoa;
+        }
+            
+        $dataNascimento = explode('/', $pessoa->data_nascimento);
         $dataNascimento = implode('-', array_reverse($dataNascimento));
 
         return $this->create([
             'endereco_id'     => $endereco->id,
-            'celular'         => $request->celular,
-            'cpf'             => $request->cpf,
+            'celular'         => $pessoa->celular,
+            'cpf'             => $pessoa->cpf,
             'data_nascimento' => $dataNascimento,
-            'email'           => $request->email,
-            'rg'              => $request->rg,
-            'foto'            => $request->foto,
-            'nacionalidade'   => $request->nacionalidade,
-            'naturalidade'    => $request->naturalidade,
-            'nome'            => $request->nome,
-            'sexo'            => $request->sexo,
-            'telefone'        => $request->telefone,
-            'naturalidade_uf' => $request->naturalidade_uf
+            'email'           => $pessoa->email,
+            'rg'              => $pessoa->rg,
+            'foto'            => $pessoa->foto,
+            'nacionalidade'   => $pessoa->nacionalidade,
+            'naturalidade'    => $pessoa->naturalidade,
+            'nome'            => $pessoa->nome,
+            'sexo'            => $pessoa->sexo,
+            'telefone'        => $pessoa->telefone,
+            'naturalidade_uf' => $pessoa->naturalidade_uf
         ]);
     }
 
@@ -82,5 +88,12 @@ class Pessoa extends Model {
      */
     public function funcionario() {
         return $this->hasOne(Funcionario::class);
+    }
+    
+    /**
+     * 
+     */
+    public function responsavel() {
+        return $this->hasOne(Responsavel::class);
     }
 }

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Validator;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -16,18 +15,30 @@ class Responsavel extends Model {
      * @var bool
      */
     public $timestamps = false;
-    
+        
+    /**
+     * The attributes that aren't mass assignable.
+     *
+     * @var array
+     */   
+    protected $guarded = [];
+
     /**
      * 
-     * @return Responsavel
+     * @* @param Responsavel $responsavel
+     * 
+     * @return int
      */
-    public function salvarResponsavel($responsavel) {
-        $validator = Validator::make((array) $responsavel, [
-            'nome' => 'required'
-        ])->validate();
+    public function salvarResponsavel($responsavel) : int {
+        $pessoa = new Pessoa;
+        $pessoa = $pessoa->salvarPessoa($responsavel);
 
-        dd($responsavel);
-
+        $responsavel = $pessoa
+                        ->responsavel()
+                        ->create([
+                            'pessoa_id' => $pessoa->id
+                        ]);
+        return $responsavel->id;
     }
 
     /**

@@ -27,6 +27,12 @@ class Professor extends Model {
 
     /**
      * 
+     * @var Request
+     */
+    private $request;
+
+    /**
+     * 
      * @* @param Request $request
      * 
      * @return Professor
@@ -37,9 +43,11 @@ class Professor extends Model {
             'disciplinas' => 'required|array'
         ]);
         
+        $this->request = $request;
+
         DB::transaction(function () {
             $pessoa = new Pessoa;
-            $pessoa = $pessoa->salvarPessoa($request);
+            $pessoa = $pessoa->salvarPessoa($this->request->all());
             
             $professor = $pessoa->professor()->create(['pessoa_id' => $pessoa->id]);
     

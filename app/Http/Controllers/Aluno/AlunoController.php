@@ -47,12 +47,24 @@ class AlunoController extends Controller {
     /**
      * 
      * @* @param int $id
+     * 
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function editar(int $id) {
         $aluno = Aluno::findOrFail($id);
         $disciplinas = Disciplina::where('is_ativa', true)->get();
         return view('aluno.editar', compact('aluno', 'disciplinas'));
+    }
+
+    /**
+     * 
+     * @* @param int $id
+     * 
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function editarTurmas(int $id) {
+        $aluno = Aluno::findOrFail($id);
+        return view('aluno.editar-turmas', compact('aluno'));
     }
 
     /**
@@ -66,12 +78,17 @@ class AlunoController extends Controller {
 
     /**
      * 
+     * @* @param String $search
+     * 
      * @return App\Models\Aluno
      */
     public function getAlunos($search) {
-        $alunos = Aluno::select(['alunos.id', 'alunos.matricula', 'alunos.matricula', 'pessoas.nome', 'pessoas.cpf', 'pessoas.telefone', 'pessoas.celular', 'pessoas.email'])
-                        ->join('pessoas', 'pessoas.id', '=', 'alunos.pessoa_id')
+        $alunos = Aluno::join('pessoas', 'pessoas.id', '=', 'alunos.pessoa_id')
                         ->where('pessoas.nome', 'like', '%'.$search.'%')
+                        ->select([
+                            'alunos.id', 'alunos.matricula', 'alunos.matricula', 'pessoas.nome', 
+                            'pessoas.cpf', 'pessoas.telefone', 'pessoas.celular', 'pessoas.email'
+                        ])
                         ->get();
 
         return json_encode($alunos);
@@ -79,11 +96,17 @@ class AlunoController extends Controller {
     
     /**
      * 
+     * @* @param String $search
+     * 
      * @return App\Models\Aluno
      */
     public function getResponsaveis($search) {
         $responsaveis = Responsavel::join('pessoas', 'pessoas.id', '=', 'responsavels.pessoa_id')
                             ->where('pessoas.nome', 'like', '%'.$search.'%')
+                            ->select([
+                                'responsavels.id', 'pessoas.nome', 'pessoas.telefone', 
+                                'pessoas.celular', 'pessoas.email', 'pessoas.cpf'
+                            ])
                             ->get();
     
         return json_encode($responsaveis);
@@ -96,34 +119,24 @@ class AlunoController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function store(Request $request) {
-        return $this->index();
-    }
-    
-    public function teste(Request $request) {
-        // $request->validate([
-        //     'cpf' => 'required|unique:pessoas',
-        //     'nome' => 'required|max:150',
-        //     'email' => 'required|max:150|email',
-        //     'data_nascimento' => 'required',
-        //     'sexo' => 'required',
-        //     'rua' => 'required',
-        //     'bairro' => 'required',
-        //     'uf' => 'required',
-        //     'cep' => 'required',
-        //     'celular' => 'required',
-        //     'responsaveisAluno' => 'required|json'
-        // ]);
- 
-        // $responsaveis = json_decode($request->responsaveisAluno);
-
-        // foreach ($responsaveis as $responsavel) {
-        //     dd($responsavel->responsavel);
-        // }
-        // dd($request->all());
+        $responsaveis = json_decode($request->responsaveisAluno);
+        if (!isset($responsaveis) || count($responsaveis) <= 0) {
+            return redirect()
+                        ->back()
+                        ->withErrors(['Responsável' => 'Informe ao menos um responsável']);
+        }
 
         $aluno = new Aluno;
-        $aluno->salvarAluno($request);
+        $aluno = $aluno->salvarAluno($request);
 
-        dd($request->all());
+        if ($aluno instanceof Aluno) {
+            return $this->index();
+        }
+    }
+    
+    /**
+     * 
+     */
+    public function teste(Request $request) {
     }
 }

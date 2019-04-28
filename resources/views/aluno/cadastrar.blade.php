@@ -13,8 +13,29 @@
 @endsection
 
 @section('content')
-<form action="{{ Route('aluno-teste') }}" method="POST" class="formCadastroAluno">
+<form action="{{ Route('gravar-aluno') }}" method="POST" class="formCadastroAluno">
 	@csrf
+
+	@if ($errors->any())
+		<div class="box box-danger">
+			<div class="box-header with-border">
+				<h3 class="box-title">Forão encontrados os seguintes erros no preenchemento do formulário</h3>
+			</div><!-- /.box-header -->
+			<div class="box-body">
+				<div class="row-fluid">
+					<div class="form-group col-md-12">
+						<div class="alert alert-danger">
+							<ul>
+								@foreach ($errors->all() as $error)
+								<li>{{ $error }}</li>
+								@endforeach
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	@endif
 
 	<div class="box box-primary">
 		<div class="box-header with-border">
@@ -23,9 +44,14 @@
 		<!-- form start -->
 		<div class="box-body">
 			<div class="row-fluid">
-				<div class="form-group col-md-8">
+				<div class="form-group col-md-5">
 					<label for="nome">Nome</label>
 					<input type="text" class="form-control" id="nome" name="nome" placeholder="Informe o nome" />
+				</div>
+
+				<div class="form-group col-md-3">
+					<label for="matricula">Matricula</label>
+					<input type="text" class="form-control" id="matricula" name="matricula" placeholder="Informe a matricula" />
 				</div>
 
 				<div class="form-group col-md-4">
@@ -64,14 +90,14 @@
 				</div>
 				<div class="form-group col-md-3">
 					<label for="ufNaturalidade">UF</label>
-					<select name="ufNaturalidade" id="ufNaturalidade" class="form-control uf1"></select>
+					<select name="naturalidade_uf" id="ufNaturalidade" class="form-control uf1"></select>
 				</div>
 			</div>
 
 			<div class="row-fluid">
 				<div class="form-group col-md-3">
 					<label for="identidade">Identidade</label>
-					<input type="text" name="identidade" class="form-control mask-identidade" id="identidade" placeholder="Identidade" />
+					<input type="text" name="rg" class="form-control mask-identidade" id="identidade" placeholder="Identidade" />
 				</div>
 
 				<div class="form-group col-md-3">
@@ -89,7 +115,7 @@
 				<div class="form-group col-md-3">
 					<div class="checkbox" style="margin-top: 20px">
 						<label>
-							<input type="checkbox" name="praticaEdFisica" id="praticaEdFisica" />
+							<input type="checkbox" name="pratica_ed_fisica" id="praticaEdFisica" />
 							Pratica ed. Física
 						</label>
 					</div>
@@ -98,8 +124,17 @@
 				<div class="form-group col-md-3">
 					<div class="checkbox" style="margin-top: 20px">
 						<label>
-							<input type="checkbox" name="irmaosNaEscola" id="irmaosNaEscola" />
+							<input type="checkbox" name="irmao_na_escola" id="irmaosNaEscola" />
 							Irmãos na Escola
+						</label>
+					</div>
+				</div>
+
+				<div class="form-group col-md-3">
+					<div class="checkbox" style="margin-top: 20px">
+						<label>
+							<input type="checkbox" name="pai_declarado" id="irmaosNaEscola" />
+							Pai Declarado
 						</label>
 					</div>
 				</div>
@@ -386,111 +421,10 @@
 		</div><!-- /.box-body -->
 	</div>
 
-	<div class="box box-danger">
-		<div class="box-header with-border">
-			<h3 class="box-title">Seleção de Turmas</h3>
-		</div><!-- /.box-header -->
-		<!-- form start -->
-		<div class="box-body">
-			<div class="row-fluid">
-				<div class="form-group col-md-3">
-					<label for="modalidade">Modalidade</label>
-					<select id="modalidade" onchange="selecionarSerie(this.value)" class="form-control">
-						<option value="">Escolha a Modalidade</option>
-						<option value="Ensino Fundamental">Ensino Fundamental</option>
-						<option value="Ensino Médio">Ensino Médio</option>
-						<option value="EJA">EJA</option>
-					</select>
-				</div>
-
-				<div class="form-group col-md-3">
-					<label for="serie">Série</label>
-					<select id="serie" class="form-control">
-						<option value="">Escolha a Série</option>
-					</select>
-				</div>
-
-				<div class="form-group col-md-3">
-					<label for="turno">Turno</label>
-					<select id="turno" class="form-control">
-						<option value="">Escolha o Turno</option>
-						<option value="Matutino">Matutino</option>
-						<option value="Vespertino">Vespertino</option>
-						<option value="Noturno">Noturno</option>
-					</select>
-				</div>
-
-				<div class="form-group col-md-3">
-					<button class="btn btn-success" type="button" id="pesquisarTurmas" style="margin-top: 23px">Pesquisar</button>
-				</div>
-			</div>
-
-			<div class="row-fluid">
-				<div class="form-group col-md-12">
-					<table class="table table-striped table-responsive" id="tabelaTurmaAlunoTemp">
-						<thead>
-							<tr>
-								<th>Turma</th>
-								<th>Série</th>
-								<th>Modalidade</th>
-								<th>Turno</th>
-								<th>#</th>
-							</tr>
-						</thead>
-						<tbody></tbody>
-					</table>
-				</div>
-			</div>
-		</div><!-- /.box-body -->
-	</div>
-
-	<div class="box box-gray">
-		<div class="box-header with-border">
-			<h3 class="box-title">Turmas do Aluno</h3>
-		</div><!-- /.box-header -->
-		<!-- form start -->
-		<div class="box-body">
-			<div class="row-fluid">
-				<div class="form-group col-md-12">
-					<table class="table table-striped table-responsive" id="tabelaTurmasAluno">
-						<thead>
-							<tr>
-								<th>Turma</th>
-								<th>Série</th>
-								<th>Modalidade</th>
-								<th>Turno</th>
-								<th>Ano</th>
-								<th>Repetente</th>
-								<th>#</th>
-							</tr>
-						</thead>
-						<tbody></tbody>
-					</table>
-					<input type="hidden" class="form-control" id="turmasAluno" name="turmasAluno" />
-				</div>
-			</div>
-		</div><!-- /.box-body -->
-	</div>
-
 	<div class="box box-warning">
 		<div class="box-body">
-
-			<div class="row-fluid">
-				<div class="form-group col-md-12">
-					@if ($errors->any())
-					<div class="alert alert-danger">
-						<ul>
-							@foreach ($errors->all() as $error)
-							<li>{{ $error }}</li>
-							@endforeach
-						</ul>
-					</div>
-					@endif
-				</div>
-			</div>
-
 			<button class="btn btn-primary" type="button" id="submeterFormulario"><i class="fa fa-save fw"></i> Salvar Alterações</button>
-			<a class="btn btn-danger" href="{{ Route('home') }}"><i class="fa fa-times fw"></i> Cancelar</a>
+			<a class="btn btn-danger" href="{{ Route('aluno') }}"><i class="fa fa-times fw"></i> Cancelar</a>
 		</div>
 	</div>
 

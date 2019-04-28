@@ -453,7 +453,11 @@ var filtrarTurmas = function () {
                                 "<td>" + e.serie + "</td>" +
                                 "<td>" + e.modalidade + "</td>" +
                                 "<td>" + e.turno + "</td>" +
-                                "<td><button type='button' class='btn btn-success' onclick='selecionarTurma(" + JSON.stringify(e) + ")' ><i class='fa fa-check fw'></i></button></td>" +
+                                "<td>" +
+                                    "<button type='button' class='btn btn-success' onclick='selecionarTurma(" + JSON.stringify(e) + ")' >" + 
+                                        "<i class='fa fa-check fw'></i>" + 
+                                    "</button>" + 
+                                "</td>" +
                             "</tr>"
                         );
                     });
@@ -606,7 +610,11 @@ var pesquisarResponsavel = function (search) {
                                 "<td><input type='text' class='form-control' /></td>" +
                                 "<td><div class='checkbox'><label><input type='checkbox' /> Outro Filho na Escola</label></div></td>" +
                                 "<td><div class='checkbox'><label><input type='checkbox' /> Mora com o Filho</label></div></td>" +
-                                "<td><button type='button' onclick='adicionarAlunoResponsavel(" + JSON.stringify(e) + ", " + i + ")' class='btn btn-success'><i class='fa fa-check-square-o fw'></i></button></td>" +
+                                "<td>" + 
+                                    "<button type='button' onclick='adicionarAlunoResponsavel(" + JSON.stringify(e) + ", " + i + ")' class='btn btn-success'>" + 
+                                        "<i class='fa fa-check-square-o fw'></i>" + 
+                                    "</button>" + 
+                                "</td>" +
                             "</tr>"
                         );
                     });
@@ -627,6 +635,7 @@ var pesquisarResponsavel = function (search) {
  * @param {*} i 
  */
 var adicionarAlunoResponsavel = function (responsavel, i) {
+    console.log(responsavel);
     let _table = $('#tabelaResponsavel tbody tr');
     let _tr = _table[i];
     let _td = $(_tr).children();
@@ -635,8 +644,8 @@ var adicionarAlunoResponsavel = function (responsavel, i) {
         'responsavel': responsavel,
         'alunoHasResponsavel': {
             'parentesco': $(_td[2]).find('input').val(),
-            'outroFilhoEscola': $(_td[3]).find('input').is(':checked'),
-            'moraComFilho': $(_td[4]).find('input').is(':checked')
+            'outro_filho_na_escola': $(_td[3]).find('input').is(':checked'),
+            'mora_com_filho': $(_td[4]).find('input').is(':checked')
         }
     };
 
@@ -655,10 +664,11 @@ var salvarDadosResponsavel = function () {
             'responsavel': {
                 'id': null,
                 'nome': $('#nomeResponsavel').val(),
-                'nascimento': $('#nascimentoResponsavel').val(),
+                'data_nascimento': $('#nascimentoResponsavel').val(),
                 'nacionalidade': $('#nacionalidadeResponsavel').val(),
                 'naturalidade': $('#naturalidadeResponsavel').val(),
-                'ufNaturalidade': $('#ufNaturalidadeResponsavel').val(),
+                'naturalidade_uf': $('#ufNaturalidadeResponsavel').val(),
+                'rg': $('#identidadeResponsavel').val(),
                 'cpf': $('#cpfResponsavel').val(),
                 'rua': $('#ruaResponsavel').val(),
                 'complemento': $('#complementoResponsavel').val(),
@@ -669,12 +679,13 @@ var salvarDadosResponsavel = function () {
                 'telefone': $('#telefoneResponsavel').val(),
                 'celular': $('#celularResponsavel').val(),
                 'email': $('#emailResponsavel').val(),
-                'sexo': $("#sexoResponsavel:checked").val()
+                'sexo': $("#sexoResponsavel:checked").val(),
+                'foto': ''
             },
             'alunoHasResponsavel': {
                 'parentesco': $('#parentesco').val(),
-                'outroFilhoEscola': $('#outroFilhoNaEscola').is(':checked'),
-                'moraComFilho': $('#moraComOFilho').is(':checked')
+                'outro_filho_na_escola': $('#outroFilhoNaEscola').is(':checked'),
+                'mora_com_filho': $('#moraComOFilho').is(':checked')
             }
         };
         
@@ -686,6 +697,7 @@ var salvarDadosResponsavel = function () {
         $('#nacionalidadeResponsavel').val('');
         $('#naturalidadeResponsavel').val('');
         $('#ufNaturalidadeResponsavel').val('');
+        $('#identidadeResponsavel').val('');
         $('#cpfResponsavel').val('');
         $('#ruaResponsavel').val('');
         $('#complementoResponsavel').val('');
@@ -721,7 +733,7 @@ var carregarTabelaAlunoResponsaveis = function () {
                         "<td>" + e.responsavel.telefone + "</td>" +
                         "<td>" + e.responsavel.celular + "</td>" +
                         "<td>" + e.responsavel.email + "</td>" +
-                        "<td>" + ((!!e.alunoHasResponsavel.moraComFilho) ? 'Sim' : 'Não') + "</td>" +
+                        "<td>" + ((e.alunoHasResponsavel.mora_com_filho) ? 'Sim' : 'Não') + "</td>" +
                         "<td><button type='button' class='btn btn-primary'><i class='fa fa-edit fw'></i></button></td>" +
                     "</tr>"
                 );
@@ -751,7 +763,7 @@ var carregarTabelaResponsaveisEdicao = function () {
                 },
                 'alunoHasResponsavel': {
                     'parentesco': $(_colunas[1]).text(),
-                    'moraComFilho': $(_colunas[5]).text()
+                    'mora_com_filho': $(_colunas[5]).text()
                 }
             }
             alunoResponsaveis.push(_responsavel);

@@ -23,9 +23,14 @@
 		<!-- form start -->
 		<div class="box-body">
 			<div class="row-fluid">
-				<div class="form-group col-md-8">
+				<div class="form-group col-md-5">
 					<label for="nome">Nome</label>
-					<input type="text" class="form-control" name="nome" id="nome" value="{{ $aluno->pessoa->nome }}" placeholder="Informe o nome" />
+					<input type="text" class="form-control" id="nome" name="nome" value="{{ $aluno->pessoa->nome }}" placeholder="Informe o nome" />
+				</div>
+
+				<div class="form-group col-md-3">
+					<label for="matricula">Matricula</label>
+					<input type="text" class="form-control" id="matricula" name="matricula" value="{{ $aluno->matricula }}" placeholder="Informe a matricula" />
 				</div>
 
 				<div class="form-group col-md-4">
@@ -52,19 +57,19 @@
 			<div class="row-fluid">
 				<div class="form-group col-md-3">
 					<label for="nascimento">Nascimento</label>
-					<input type="text" name="data_nascimento" class="form-control mask-data" id="nascimento" value="{{ date_format(date_create($aluno->pessoa->data_nascimento), 'd/m/Y') }}" placeholder="Nascimento" />
+					<input type="text" name="data_nascimento" class="form-control mask-data" id="nascimento" value="{{ $aluno->pessoa->data_nascimento }}" placeholder="Nascimento" />
 				</div>
 				<div class="form-group col-md-3">
 					<label for="nacionalidade">Nacionalidade</label>
-					<input type="text" class="form-control" name="nacionalidade" id="nacionalidade" value="{{ $aluno->pessoa->nacionalidade }}" placeholder="Nacionalidade" />
+					<input type="text" class="form-control" id="nacionalidade" name="nacionalidade" value="{{ $aluno->pessoa->nacionalidade }}" placeholder="Nacionalidade" />
 				</div>
 				<div class="form-group col-md-3">
 					<label for="naturalidade">Naturalidade</label>
-					<input type="text" class="form-control" name="naturalidade" id="naturalidade" value="{{ $aluno->pessoa->naturalidade }}" placeholder="Naturalidade" />
+					<input type="text" class="form-control" id="naturalidade" name="naturalidade" value="{{ $aluno->pessoa->naturalidade }}" placeholder="Naturalidade" />
 				</div>
 				<div class="form-group col-md-3">
-					<label for="uf">UF</label>
-					<select name="ufNaturalidade" id="ufNaturalidade" class="form-control uf1"></select>
+					<label for="ufNaturalidade">UF</label>
+					<select name="naturalidade_uf" id="ufNaturalidade" class="form-control uf1"></select>
 					<input type="hidden" disabled value="{{ $aluno->pessoa->naturalidade_uf }}" class="ufHidden1" />
 				</div>
 			</div>
@@ -72,37 +77,46 @@
 			<div class="row-fluid">
 				<div class="form-group col-md-3">
 					<label for="identidade">Identidade</label>
-					<input type="text" name="identidade" class="form-control mask-identidade" id="identidade" value="{{ $aluno->pessoa->rg }}" placeholder="Identidade" />
+					<input type="text" name="rg" class="form-control mask-identidade" id="identidade" value="{{ $aluno->pessoa->rg }}" placeholder="Identidade" />
 				</div>
-				
+
 				<div class="form-group col-md-3">
 					<label for="cpf">CPF</label>
-					<input type="text" class="form-control mask-cpf" name="cpf" id="cpf" value="{{ $aluno->pessoa->cpf }}" placeholder="CPF" />
+					<input type="text" class="form-control mask-cpf" id="cpf" name="cpf" value="{{ $aluno->pessoa->cpf }}" placeholder="CPF" />
 				</div>
 
 				<div class="form-group col-md-6">
 					<label for="foto">Foto</label>
-					<input type="file" id="foto" class="form-control btn-block">
+					<input type="file" id="foto" name="foto" class="form-control btn-block">
 				</div>
 			</div>
 
 			<div class="row-fluid">
 				<div class="form-group col-md-3">
 					<div class="checkbox" style="margin-top: 20px">
-                        <label>
-                          <input type="checkbox" name="praticaEdFisica" id="praticaEdFisica" {{ ($aluno->pratica_ed_fisica) ? 'checked' : '' }} />
-                          Pratica ed. Física
-                        </label>
-                    </div>
+						<label>
+							<input type="checkbox" name="pratica_ed_fisica" id="praticaEdFisica" {{ ($aluno->pratica_ed_fisica) ? 'checked' : '' }} />
+							Pratica ed. Física
+						</label>
+					</div>
 				</div>
-				
+
 				<div class="form-group col-md-3">
 					<div class="checkbox" style="margin-top: 20px">
-                        <label>
-                          <input type="checkbox" name="irmaosNaEscola" id="irmaosNaEscola" {{ ($aluno->irmao_na_escola) ? 'checked' : '' }} />
-                          Irmãos na Escola
-                        </label>
-                    </div>
+						<label>
+							<input type="checkbox" name="irmao_na_escola" id="irmaosNaEscola" {{ ($aluno->irmao_na_escola) ? 'checked' : '' }} />
+							Irmãos na Escola
+						</label>
+					</div>
+				</div>
+
+				<div class="form-group col-md-3">
+					<div class="checkbox" style="margin-top: 20px">
+						<label>
+							<input type="checkbox" name="pai_declarado" id="irmaosNaEscola" {{ ($aluno->pai_declarado) ? 'checked' : '' }} />
+							Pai Declarado
+						</label>
+					</div>
 				</div>
 			</div>
 
@@ -114,50 +128,51 @@
 
 			<div class="row-fluid">
 				<div class="form-group col-md-5">
-					<label for="nascimento">Rua</label>
-					<input type="text" name="rua" class="form-control" id="rua" placeholder="Rua" value="{{ $aluno->pessoa->endereco->rua }}" />
+					<label for="rua">Rua</label>
+					<input type="text" name="rua" class="form-control" id="rua" value="{{ $aluno->pessoa->endereco->rua }}" placeholder="Rua" />
 				</div>
 				<div class="form-group col-md-4">
 					<label for="complemento">Complemento</label>
-					<input type="text" class="form-control" id="complemento" name="complemento" placeholder="Complemento" value="{{ $aluno->pessoa->endereco->complemento }}" />
+					<input type="text" class="form-control" id="complemento" name="complemento" value="{{ $aluno->pessoa->endereco->complemento }}" placeholder="Complemento" />
 				</div>
 				<div class="form-group col-md-3">
 					<label for="bairro">Bairro</label>
-					<input type="text" class="form-control" id="bairro" name="bairro" placeholder="Bairro" value="{{ $aluno->pessoa->endereco->bairro }}" />
+					<input type="text" class="form-control" id="bairro" name="bairro" value="{{ $aluno->pessoa->endereco->bairro }}" placeholder="Bairro" />
 				</div>
 			</div>
 
 			<div class="row-fluid">
 				<div class="form-group col-md-4">
 					<label for="cidade">Cidade</label>
-					<input type="text" name="cidade" class="form-control" id="cidade" placeholder="Cidade" value="{{ $aluno->pessoa->endereco->cidade }}" />
+					<input type="text" name="cidade" class="form-control" id="cidade" value="{{ $aluno->pessoa->endereco->cidade }}" placeholder="Cidade" />
 				</div>
 				<div class="form-group col-md-4">
 					<label for="uf">UF</label>
-					<select name="uf" id="uf" value="{{ $aluno->pessoa->endereco->uf }}" class="form-control uf2"></select>
+					<select name="uf" id="uf" class="form-control uf2"></select>
 					<input type="hidden" disabled value="{{ $aluno->pessoa->endereco->uf }}" class="ufHidden2" />
 				</div>
 				<div class="form-group col-md-4">
 					<label for="cep">CEP</label>
-					<input type="text" class="form-control mask-cep" id="cep" name="cep" placeholder="CEP" value="{{ $aluno->pessoa->endereco->cep }}" />
+					<input type="text" class="form-control mask-cep" id="cep" name="cep" value="{{ $aluno->pessoa->endereco->cep }}" placeholder="CEP" />
 				</div>
 			</div>
 
 			<div class="row-fluid">
-			<div class="form-group col-md-3">
+				<div class="form-group col-md-3">
 					<label for="telefone">Telefone</label>
-					<input type="text" name="telefone" class="form-control mask-telefone" id="telefone" placeholder="Telefone" value="{{ $aluno->pessoa->telefone }}" />
+					<input type="text" name="telefone" class="form-control mask-telefone" id="telefone" value="{{ $aluno->pessoa->telefone }}" placeholder="Telefone" />
 				</div>
-				
+
 				<div class="form-group col-md-3">
 					<label for="celular">Celular</label>
-					<input type="text" class="form-control mask-telefone" id="celular" name="celular" placeholder="Celular" value="{{ $aluno->pessoa->celular }}" />
+					<input type="text" class="form-control mask-telefone" id="celular" name="celular" value="{{ $aluno->pessoa->celular }}" placeholder="Celular" />
 				</div>
 
 				<div class="form-group col-md-6">
 					<label for="email">Email</label>
-					<input type="email" id="email" name="email" class="form-control" placeholder="Email" value="{{ $aluno->pessoa->email }}" />
+					<input type="email" id="email" name="email" class="form-control" value="{{ $aluno->pessoa->email }}" placeholder="Email" />
 				</div>
+
 			</div>
 		</div><!-- /.box-body -->
 	</div>
@@ -397,110 +412,10 @@
 		</div><!-- /.box-body -->
 	</div>
 
-	<div class="box box-danger">
-		<div class="box-header with-border">
-			<h3 class="box-title">Seleção de Turmas</h3>
-		</div><!-- /.box-header -->
-		<!-- form start -->
-		<div class="box-body">
-			<div class="row-fluid">
-				<div class="form-group col-md-3">
-					<label for="modalidade">Modalidade</label>
-					<select id="modalidade" onchange="selecionarSerie(this.value)" class="form-control">
-                        <option value="">Escolha a Modalidade</option>
-                        <option value="Ensino Fundamental">Ensino Fundamental</option>
-                        <option value="Ensino Médio">Ensino Médio</option>
-                        <option value="EJA">EJA</option>
-                    </select>
-				</div>
-
-				<div class="form-group col-md-3">
-					<label for="serie">Série</label>
-					<select id="serie" class="form-control">
-                        <option value="">Escolha a Série</option>
-                    </select>
-				</div>
-
-				<div class="form-group col-md-3">
-					<label for="turno">Turno</label>
-					<select id="turno" class="form-control">
-                        <option value="">Escolha o Turno</option>
-                        <option value="Matutino">Matutino</option>
-                        <option value="Vespertino">Vespertino</option>
-                        <option value="Noturno">Noturno</option>
-                    </select>
-				</div>
-
-				<div class="form-group col-md-3">
-					<button class="btn btn-success" type="button" id="pesquisarTurmas" style="margin-top: 23px">Pesquisar</button>
-				</div>
-			</div>
-
-			<div class="row-fluid">
-                <div class="form-group col-md-12">
-                    <table class="table table-striped table-responsive" id="tabelaTurmaAlunoTemp">
-                        <thead>
-                            <tr>
-                                <th>Turma</th>
-                                <th>Série</th>
-                                <th>Modalidade</th>
-                                <th>Turno</th>
-                                <th>#</th>
-                            </tr>
-                        </thead>
-                        <tbody></tbody>
-                    </table>
-                </div>
-			</div>
-		</div><!-- /.box-body -->
-	</div>
-
-	<div class="box box-gray">
-		<div class="box-header with-border">
-			<h3 class="box-title">Turmas do Aluno</h3>
-		</div><!-- /.box-header -->
-		<!-- form start -->
-		<div class="box-body">
-			<div class="row-fluid">
-                <div class="form-group col-md-12">
-                    <table class="table table-striped table-responsive" id="tabelaTurmasAluno">
-                        <thead>
-                            <tr>
-                                <th>Turma</th>
-                                <th>Série</th>
-                                <th>Modalidade</th>
-                                <th>Turno</th>
-                                <th>Ano</th>
-                                <th>Repetente</th>
-                                <th>#</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-							@isset($aluno->turmas)
-								@foreach($aluno->turmas as $turma)
-									<tr>
-										<td>{{ $turma->turma }}</td>
-										<td>{{ $turma->serie }}</td>
-										<td>{{ $turma->modalidade }}</td>
-										<td>{{ $turma->turno }}</td>
-										<td>{{ $turma->pivot->ano }}</td>
-										<td>{{ $turma->pivot->is_repetente }}</td>
-										<td>{{ $turma->id }}</td>
-									</tr>
-								@endforeach
-							@endisset
-						</tbody>
-                    </table>
-                    <input type="hidden" class="form-control" id="turmasAluno" name="turmasAluno" />
-                </div>
-			</div>
-		</div><!-- /.box-body -->
-	</div>
-
 	<div class="box box-warning">
 		<div class="box-body">
 			<button class="btn btn-primary" type="button" id="submeterFormulario" ><i class="fa fa-save fw"></i> Salvar Alterações</button>
-			<a class="btn btn-danger" href="{{ Route('home') }}"><i class="fa fa-times fw"></i> Cancelar</a>
+			<a class="btn btn-danger" href="{{ Route('aluno') }}"><i class="fa fa-times fw"></i> Cancelar</a>
 		</div>
 	</div>
 

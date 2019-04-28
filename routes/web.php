@@ -152,6 +152,12 @@ Route::prefix('aluno')->group(function () {
      *
      * @return
      */
+    Route::get('turmas/editar/{matricula}', 'Aluno\AlunoController@editarTurmas')->name('editar-turmas-aluno');
+    /**
+     * 
+     *
+     * @return
+     */
     Route::get('relatorio', 'Aluno\AlunoController@relatorio')->name('relatorio-aluno');
     /**
      * 
@@ -165,6 +171,12 @@ Route::prefix('aluno')->group(function () {
      * @return
      */
     Route::get('get/responsaveis/{search}', 'Aluno\AlunoController@getResponsaveis')->name('get-responsaveis');
+    /**
+     * 
+     *
+     * @return
+     */
+    Route::post('/', 'Aluno\AlunoController@store')->name('gravar-aluno');
     /**
      * 
      *

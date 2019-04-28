@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use Illuminate\Http\Request;
+use Validator;
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -20,26 +20,30 @@ class Endereco extends Model {
     
     /**
      * 
-     * @* @param Request $request
+     * @* @param Endereco $endereco
      * 
      * @return Endereco
      */
-    public function salvarEndereco(Request $request) : Endereco {
-        $request->validate([
+    public function salvarEndereco($endereco) : Endereco {
+        Validator::make((array) $endereco, [
             'rua'    => 'required',
             'bairro' => 'required',
             'uf'     => 'required',
             'cidade' => 'required',
             'cep'    => 'required'
-        ]);
+        ])->validate();
+
+        if (is_array($endereco)) {
+            $endereco = (object) $endereco;
+        }
 
         return $this->create([
-            'rua'         => $request->rua,
-            'bairro'      => $request->bairro,
-            'cep'         => $request->cep,
-            'cidade'      => $request->cidade,
-            'complemento' => $request->complemento,
-            'uf'          => $request->uf
+            'rua'         => $endereco->rua,
+            'bairro'      => $endereco->bairro,
+            'cep'         => $endereco->cep,
+            'cidade'      => $endereco->cidade,
+            'complemento' => $endereco->complemento,
+            'uf'          => $endereco->uf
         ]);
     }
 

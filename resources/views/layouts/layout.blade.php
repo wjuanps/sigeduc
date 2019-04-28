@@ -128,34 +128,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
         
         <!-- Custom -->
         <script src="{{ asset('js/sigeduc.js') }}"></script>
-
-        <script>
-            $(function () {
-                //Initialize Select2 Elements
-                $(".select2").select2();
-
-                //Masks
-                $('.mask-data').inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
-                $('.mask-telefone').inputmask("(99) 9 9999-9999", {"placeholder": "(__) _ ____-____"});
-                $('.mask-identidade').inputmask("999999-9", {"placeholder": "______-_"});
-                $('.mask-cpf').inputmask("999.999.999.99", {"placeholder": "___.___.___-__"});
-                $('.mask-cep').inputmask("99999-999", {"placeholder": "_____-___"});
-
-                //datatables
-                $('#dataTable').DataTable({
-                    "language": {
-                        "lengthMenu": "Exibir _MENU_ registros por página",
-                        "zeroRecords": "Nada encontrado - desculpe",
-                        "info": "Mostrando página _PAGE_ de _PAGES_ - total de registros _MAX_",
-                        "infoEmpty": "Não existem dados para essa busca",
-                        "infoFiltered": "(filtrado a partir de _MAX_ registros totais)",
-                        "search": "Procurar",
-                        "next": "Próximo",
-                        "previous": "Anterior"
-                    }
-                });
-            });
-        </script>
+        <script src="{{ asset('js/professor.js') }}"></script>
+        <script src="{{ asset('js/aluno.js') }}"></script>
+        <script src="{{ asset('js/funcionario.js') }}"></script>
     </body>
 
 </html>

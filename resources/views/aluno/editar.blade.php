@@ -30,7 +30,7 @@
 
 				<div class="form-group col-md-3">
 					<label for="matricula">Matricula</label>
-					<input type="text" class="form-control" id="matricula" name="matricula" value="{{ $aluno->matricula }}" placeholder="Informe a matricula" />
+					<input type="text" class="form-control" id="matricula" name="matricula" value="{{ $aluno->matricula }}" disabled />
 				</div>
 
 				<div class="form-group col-md-4">

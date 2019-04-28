@@ -275,8 +275,8 @@
 				</div>
 			</div>
 
-			<button class="btn btn-primary" id="submeter" type="button">Salvar Alterações</button>
-			<a href="{{ Route('home') }}" class="btn btn-danger" id="submeter">Cancelar</a>
+			<button class="btn btn-primary" id="submeterCadastroProfessor" type="button">Salvar Alterações</button>
+			<a href="{{ Route('professor') }}" class="btn btn-danger">Cancelar</a>
 		</div>
 	</div>
 </form>

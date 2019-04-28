@@ -33,6 +33,12 @@ class Professor extends Model {
 
     /**
      * 
+     * @var Professor
+     */
+    private $professor;
+
+    /**
+     * 
      * @* @param Request $request
      * 
      * @return Professor
@@ -49,15 +55,15 @@ class Professor extends Model {
             $pessoa = new Pessoa;
             $pessoa = $pessoa->salvarPessoa($this->request->all());
             
-            $professor = $pessoa->professor()->create(['pessoa_id' => $pessoa->id]);
+            $this->professor = $pessoa->professor()->create(['pessoa_id' => $pessoa->id]);
     
-            foreach ($request->disciplinas as $disciplina) {
-                $professor->disciplinas()->attach($disciplina);
+            foreach ($this->request->disciplinas as $disciplina) {
+                $this->professor->disciplinas()->attach($disciplina);
             }
         
-            $formacoes = json_decode($request->formacoes);
+            $formacoes = json_decode($this->request->formacoes);
             foreach ($formacoes as $formacao) {
-                $professor->formacoes()->create([
+                $this->professor->formacoes()->create([
                     'ano_inicio'  => $formacao->anoInicio,
                     'ano_termino' => $formacao->anoTermino,
                     'curso'       => $formacao->curso,
@@ -67,9 +73,8 @@ class Professor extends Model {
                 ]);
             }
     
-            return $professor;
         });
-        return null;
+        return $this->professor;
     }
 
     /**

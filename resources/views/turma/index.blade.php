@@ -35,7 +35,7 @@
 				@isset($turmas)
 					@foreach($turmas as $turma)
 						<tr>
-							<td>{{ $turma->turma }}</td>
+							<td>{{ $turma->nome_turma }}</td>
 							<td>{{ $turma->serie }}</td>
 							<td>{{ $turma->modalidade }}</td>
 							<td>{{ $turma->turno }}</td>
@@ -50,7 +50,18 @@
 									</button>
 									<ul class="dropdown-menu" role="menu">
 										<li><a href="{{ Route('editar-turma', $turma->id) }}">Editar</a></li>
-										<li><a href="#">Diário de Classe</a></li>
+										<li>
+											<form id="{{ 'formEditarTurmas'.$turma->id }}" action="{{ Route('adicionar-alunos') }}" method="POST">
+												@csrf <input type="hidden" name="id_turma" value="{{ $turma->id }}" />
+											</form>
+											<a href="#" onclick="event.preventDefault(); document.getElementById({{'\''. 'formEditarTurmas'.$turma->id . '\'' }}).submit()">Adicionar Alunos</a>
+										</li>
+										<li>
+											<form id="{{ 'gradeProfessores'.$turma->id }}" action="{{ Route('grade-de-professores') }}" method="POST">
+												@csrf <input type="hidden" name="id_turma" value="{{ $turma->id }}" />
+											</form>
+											<a href="#" onclick="event.preventDefault(); document.getElementById({{'\''. 'gradeProfessores'.$turma->id . '\'' }}).submit()">Grade de Professores</a>
+										</li>
 										<li class="divider"></li>
 										<li><a href="#">Remover</a></li>
 									</ul>

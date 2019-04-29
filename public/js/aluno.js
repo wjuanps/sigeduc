@@ -2,17 +2,11 @@
 
 var alunosMatriculados = [];
 var alunoResponsaveis = [];
-var turmasAluno = [];
 
 $(document).ready(function () {
 
     $("#submeterFormulario").bind('click', function () {
         submeterCadastroAluno();
-    });
-
-    $('.pesquisar-aluno').bind('click', function () {
-        let _search = $('#search').val();
-        pesquisarAluno(_search);
     });
 
     $('.pesquisar-responsavel').bind('click', function () {
@@ -30,8 +24,6 @@ $(document).ready(function () {
         $('#salvarDadosResponsavel').toggleClass('hidden');
     });
 
-    carregarTabelaTurmasEdicao();
-
 });
 
 /*
@@ -42,40 +34,6 @@ $(document).ready(function () {
 |
 |
 */
-
-/**
- * 
- */
-var pesquisarAluno = function (search) {
-    let _table = $('#tabelaAluno tbody');
-    _table.empty();
-    $.ajax({
-        type: 'GET',
-        url: '/aluno/get/' + search,
-        dataType: 'json',
-        success: function (response) {
-            if (!!response) {
-                try {
-                    response.forEach(function (e, i) {
-                        _table.append(
-                            "<tr>" +
-                                "<td>" + e.matricula + "</td>" +
-                                "<td>" + e.nome + "</td>" +
-                                "<td>" + e.cpf + "</td>" +
-                                "<td><button type='button' onclick='adicionarAlunoTurma(" + JSON.stringify(e) + ")' class='btn btn-success'><i class='fa fa-check-square-o fw'></i></button></td>" +
-                            "</tr>"
-                        );
-                    });
-                } catch (error) {
-                    console.error(error);
-                }
-            }
-        },
-        error: function (error) {
-            console.error(error);
-        }
-    });
-};
 
 /**
  * 

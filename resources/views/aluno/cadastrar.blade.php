@@ -16,26 +16,7 @@
 <form action="{{ Route('gravar-aluno') }}" method="POST" class="formCadastroAluno">
 	@csrf
 
-	@if ($errors->any())
-		<div class="box box-danger">
-			<div class="box-header with-border">
-				<h3 class="box-title">Forão encontrados os seguintes erros no preenchemento do formulário</h3>
-			</div><!-- /.box-header -->
-			<div class="box-body">
-				<div class="row-fluid">
-					<div class="form-group col-md-12">
-						<div class="alert alert-danger">
-							<ul>
-								@foreach ($errors->all() as $error)
-								<li>{{ $error }}</li>
-								@endforeach
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	@endif
+	@include('includes.alert-errors')
 
 	<div class="box box-primary">
 		<div class="box-header with-border">
@@ -51,7 +32,8 @@
 
 				<div class="form-group col-md-3">
 					<label for="matricula">Matricula</label>
-					<input type="text" class="form-control" id="matricula" name="matricula" value="{{ date_format(date_create(), 'Ymdhis') }}" disabled />
+					<input type="text" class="form-control" id="matricula" value="{{ date_format(date_create(), 'Ymdhis') }}" disabled />
+					<input type="hidden" class="form-control" name="matricula" value="{{ date_format(date_create(), 'Ymdhis') }}" />
 				</div>
 
 				<div class="form-group col-md-4">
@@ -89,8 +71,10 @@
 					<input type="text" class="form-control" id="naturalidade" name="naturalidade" placeholder="Naturalidade" />
 				</div>
 				<div class="form-group col-md-3">
-					<label for="ufNaturalidade">UF</label>
-					<select name="naturalidade_uf" id="ufNaturalidade" class="form-control uf1"></select>
+					<label for="ufNaturalidade">Estado</label>
+					<select name="naturalidade_uf" id="ufNaturalidade" class="form-control uf1">
+						<option value="">Selecione</option>
+					</select>
 				</div>
 			</div>
 
@@ -167,8 +151,10 @@
 					<input type="text" name="cidade" class="form-control" id="cidade" placeholder="Cidade" />
 				</div>
 				<div class="form-group col-md-4">
-					<label for="uf">UF</label>
-					<select name="uf" id="uf" class="form-control uf2"></select>
+					<label for="uf">Estado</label>
+					<select name="uf" id="uf" class="form-control uf2">
+						<option value="">Selecione</option>
+					</select>
 				</div>
 				<div class="form-group col-md-4">
 					<label for="cep">CEP</label>
@@ -254,8 +240,10 @@
 						<input type="text" class="form-control" id="naturalidadeResponsavel" placeholder="Naturalidade" />
 					</div>
 					<div class="form-group col-md-3">
-						<label for="ufNaturalidadeResponsavel">UF</label>
-						<input type="text" class="form-control" id="ufNaturalidadeResponsavel" placeholder="UF" />
+						<label for="ufNaturalidadeResponsavel">Estado</label>
+						<select id="ufNaturalidadeResponsavel" class="form-control uf3">
+							<option value="">Selecione</option>
+						</select>
 					</div>
 				</div>
 
@@ -318,8 +306,10 @@
 						<input type="text" class="form-control" id="cidadeResponsavel" placeholder="Cidade" />
 					</div>
 					<div class="form-group col-md-4">
-						<label for="ufResponsavel">UF</label>
-						<input type="text" class="form-control" id="ufResponsavel" placeholder="UF" />
+						<label for="ufResponsavel">Estado</label>
+						<select id="ufResponsavel" class="form-control uf4">
+							<option value="">Selecione</option>
+						</select>
 					</div>
 					<div class="form-group col-md-4">
 						<label for="cepResponsavel">CEP</label>

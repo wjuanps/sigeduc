@@ -18,6 +18,18 @@ class Funcionario extends Model {
      * @var array
      */   
     protected $guarded = [];
+    
+    /**
+     * 
+     * @var Request
+     */
+    private $request;
+
+    /**
+     * 
+     * @var Funcionario
+     */
+    private $funcionario;
 
     /**
      * 
@@ -34,34 +46,35 @@ class Funcionario extends Model {
             'escolaridade'          => 'required'
         ]);
 
+        $this->request = $request;
+
         DB::transaction(function () {
             $pessoa = new Pessoa;
-            $pessoa = $pessoa->salvarPessoa($request);
+            $pessoa = $pessoa->salvarPessoa($this->request->all());
     
-            $dataEmissaoCarteira = explode('/', $request->data_emissao_carteira);
+            $dataEmissaoCarteira = explode('/', $this->request->data_emissao_carteira);
             $dataEmissaoCarteira = implode('-', array_reverse($dataEmissaoCarteira));
     
-            $funcionario = $pessoa->funcionario()->create([
+            $this->funcionario = $pessoa->funcionario()->create([
                 'pessoa_id'             => $pessoa->id,
                 'data_emissao_carteira' => $dataEmissaoCarteira,
-                'qtd_dependentes'       => $request->qtd_dependentes,
-                'escolaridade'          => $request->escolaridade,
-                'numero_ctps'           => $request->numero_ctps,
-                'numero_pis'            => $request->numero_pis,
-                'serie_ctps'            => $request->serie_ctps
+                'qtd_dependentes'       => $this->request->qtd_dependentes,
+                'escolaridade'          => $this->request->escolaridade,
+                'numero_ctps'           => $this->request->numero_ctps,
+                'numero_pis'            => $this->request->numero_pis,
+                'serie_ctps'            => $this->request->serie_ctps
             ]);
     
-            $cargos = json_decode($request->funcionarioCargos);
+            $cargos = json_decode($this->request->funcionarioCargos);
             foreach ($cargos as $cargo) {
-                $funcionario->cargos()->attach($cargo->id, [
+                $this->funcionario->cargos()->attach($cargo->id, [
                     'is_cargo_atual' => $cargo->cargoAtual,
                     'carga_horaria'  => $cargo->cargaHoraria
                 ]);
             }
     
-            return $funcionario;
         });
-        return null;
+        return $this->funcionario;
     }
 
     /**

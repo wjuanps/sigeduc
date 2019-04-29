@@ -21,7 +21,6 @@ class CreateAlunoHasTurmasTable extends Migration {
             $table->foreign('turma_id')->references('id')->on('turmas');
             $table->foreign('aluno_id')->references('id')->on('alunos');
             $table->primary(['turma_id', 'aluno_id']);
-            $table->integer('ano');
             $table->tinyInteger('is_repetente');
         });
     }

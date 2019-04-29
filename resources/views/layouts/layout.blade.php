@@ -130,6 +130,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <script src="{{ asset('js/sigeduc.js') }}"></script>
         <script src="{{ asset('js/professor.js') }}"></script>
         <script src="{{ asset('js/aluno.js') }}"></script>
+        <script src="{{ asset('js/turma.js') }}"></script>
         <script src="{{ asset('js/funcionario.js') }}"></script>
     </body>
 

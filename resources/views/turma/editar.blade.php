@@ -16,6 +16,8 @@
 <form action="{{ Route('gravar-turma') }}" method="POST" id="formCadastrarTurma">
 	@csrf
 
+	@include('includes.alert-errors')
+
 	<div class="box box-primary">
 		<div class="box-header with-border">
 			<h3 class="box-title">Dados da Turma</h3>
@@ -59,7 +61,7 @@
 			<div class="row-fluid">
 				<div class="form-group col-md-3">
 					<label for="turma">Turma</label>
-					<input type="text" name="turma" class="form-control" value="{{ $turma->turma }}" id="turma" placeholder="Turma" />
+					<input type="text" name="nome_turma" class="form-control" value="{{ $turma->nome_turma }}" id="turma" placeholder="Turma" />
 				</div>
 				<div class="form-group col-md-3">
 					<label for="descricaoTurma">Descrição da Turma</label>
@@ -173,101 +175,8 @@
 		</div><!-- /.box-body -->
 	</div>
 
-	<div class="box box-success">
-		<div class="box-header with-border">
-			<h3 class="box-title">Alunos</h3>
-		</div><!-- /.box-header -->
-		<!-- form start -->
-		<div class="box-body">
-			<div class="row-fluid">
-                <div class="form-group col-md-5">
-                    <input type="search" class="form-control select-disciplina" id="search" placeholder="Pesquisar Aluno" />
-                </div>
-
-                <div class="form-group col-md-2">
-                    <button class="btn btn-success pesquisar-aluno" type="button">Pesquisar</button>
-                </div>
-			</div>
-
-			<div class="row-fluid">
-                <div class="form-group col-md-12">
-                    <table class="table table-striped table-responsive" id="tabelaAluno">
-                        <thead>
-                            <tr>
-                                <th>Matricula</th>
-                                <th>Nome</th>
-                                <th>CPF</th>
-                                <th>#</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-							
-						</tbody>
-                    </table>
-                </div>
-			</div>
-		</div><!-- /.box-body -->
-	</div>
-
-	<div class="box box-gray">
-		<div class="box-header with-border">
-			<h3 class="box-title">Alunos Matriculados</h3>
-		</div><!-- /.box-header -->
-		<!-- form start -->
-		<div class="box-body">
-			<div class="row-fluid">
-                <div class="form-group col-md-12">
-                    <table class="table table-striped table-responsive" id="tabelaAlunosMatriculados">
-                        <thead>
-                            <tr>
-                                <th>Matricula</th>
-                                <th>Nome</th>
-                                <th>CPF</th>
-                                <th>Telefone</th>
-                                <th>Celular</th>
-                                <th>Email</th>
-                                <th>#</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-							@isset($turma->alunos)
-								@foreach($turma->alunos as $aluno)
-									<tr>
-										<td>{{ $aluno->matricula }}</td>
-										<td>{{ $aluno->pessoa->nome }}</td>
-										<td>{{ $aluno->pessoa->cpf }}</td>
-										<td>{{ $aluno->pessoa->telefone }}</td>
-										<td>{{ $aluno->pessoa->celular }}</td>
-										<td>{{ $aluno->pessoa->email }}</td>
-										<td>{{ $aluno->id }}</td>
-									</tr>
-								@endforeach
-							@endisset
-                        </tbody>
-                    </table>
-                    <input type="hidden" class="form-control" id="alunos" name="alunos" />
-                </div>
-			</div>
-		</div><!-- /.box-body -->
-	</div>
-
 	<div class="box box-warning">
 		<div class="box-body">
-
-            <div class="row-fluid">
-				<div class="form-group col-md-12">
-					@if ($errors->any())
-						<div class="alert alert-danger">
-							<ul>
-								@foreach ($errors->all() as $error)
-									<li>{{ $error }}</li>
-								@endforeach
-							</ul>
-						</div>
-					@endif
-				</div>
-			</div>
-
 			<button class="btn btn-primary cadastrar-turma" type="button"><i class="fa fa-save fw"></i> Salvar Alterações</button>
 			<a class="btn btn-danger cadastrar-turma" href="{{ Route('home') }}"><i class="fa fa-times fw"></i> Cancelar</a>
 		</div>

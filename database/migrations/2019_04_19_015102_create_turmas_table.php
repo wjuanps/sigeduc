@@ -19,10 +19,11 @@ class CreateTurmasTable extends Migration {
             $table->bigIncrements('id');
             $table->bigInteger('escola_id')->unsigned();
             $table->foreign('escola_id')->references('id')->on('escolas');
-            $table->string('turma', 25)->unique();
+            $table->string('nome_turma', 25)->unique(); 
             $table->string('serie', 10);
             $table->string('turno', 15);
             $table->string('modalidade', 30);
+            $table->integer('ano');
             $table->string('descriao_turma', 100)->nullable();
             $table->string('descricao_serie', 100)->nullable();
             $table->dateTime('cancelado_em')->nullable();

@@ -65,8 +65,8 @@
                 <ul class="treeview-menu">
                     <li><a href="{{ Route('turma') }}"><i class="fa fa-circle-o fw"></i> Turma</a></li>
                     <li><a href="{{ Route('disciplina') }}"><i class="fa fa-circle-o fw"></i> Cadastrar/Alterar Disciplina</a></li>
-                    <li>
-                        <a href="#"><i class="fa fa-circle-o fw"></i> Aluno</a>
+                    <li class="treeview">
+                        <a href="#"><i class="fa fa-circle-o fw"></i> <span>Aluno</span> <i class="fa fa-angle-left pull-right"></i></a>
                         <ul class="treeview-menu">
                             <li><a href="#"><i class="fa fa-circle-o fw"></i> Lançar Nota</a></li>
                             <li><a href="#"><i class="fa fa-circle-o fw"></i> Lançar Frequência</a></li>

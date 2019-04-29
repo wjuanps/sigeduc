@@ -21,6 +21,18 @@ class Disciplina extends Model {
     
     /**
      * 
+     * @var Request
+     */
+    private $request;
+
+    /**
+     * 
+     * @var Disciplina
+     */
+    private $disciplina;
+    
+    /**
+     * 
      * @* @param Request $request
      * 
      * @return Disciplina
@@ -31,13 +43,15 @@ class Disciplina extends Model {
             'descricao'  => 'required'
         ]);
 
+        $this->request = $request;
+
         DB::transaction(function () {
-            return $this->create([
-                'disciplina' => $request->disciplina,
-                'descricao'  => $request->descricao
+            $this->disciplina = $this->create([
+                'disciplina' => $this->request->disciplina,
+                'descricao'  => $this->request->descricao
             ]);
         });
-        return null;
+        return $this->disciplina;
     }
 
     /**

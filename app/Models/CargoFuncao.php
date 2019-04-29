@@ -20,6 +20,18 @@ class CargoFuncao extends Model {
 
     /**
      * 
+     * @var Request
+     */
+    private $request;
+
+    /**
+     * 
+     * @var CargoFuncao
+     */
+    private $cargoFuncao;
+
+    /**
+     * 
      * @* @param Request $request
      * 
      * @return CargoFuncao
@@ -30,13 +42,15 @@ class CargoFuncao extends Model {
             'descricao'    => 'required'
         ]);
 
+        $this->request = $request;
+
         DB::transaction(function() {
-            return $this->create([
-                'cargo_funcao' => $request->cargo_funcao,
-                'descricao'    => $request->descricao
+            $this->cargoFuncao = $this->create([
+                'cargo_funcao' => $this->request->cargo_funcao,
+                'descricao'    => $this->request->descricao
             ]);
         });
-        return null;
+        return $this->cargoFuncao;
     }
 
     /**

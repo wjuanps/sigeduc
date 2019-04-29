@@ -8,6 +8,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Aluno;
 use App\Models\Disciplina;
 use App\Models\Responsavel;
+use App\Models\Turma;
 
 /**
  * 
@@ -51,20 +52,51 @@ class AlunoController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function editar(int $id) {
-        $aluno = Aluno::findOrFail($id);
-        $disciplinas = Disciplina::where('is_ativa', true)->get();
-        return view('aluno.editar', compact('aluno', 'disciplinas'));
+        try {
+            $aluno = Aluno::findOrFail($id);
+            $disciplinas = Disciplina::where('is_ativa', true)->get();
+            return view('aluno.editar', compact('aluno', 'disciplinas'));
+        } catch (HttpException $th) {
+            dd($th);
+        }
     }
+    
+    protected $turma;
 
     /**
      * 
-     * @* @param int $id
+     * @* @param Request $request
      * 
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function editarTurmas(int $id) {
-        $aluno = Aluno::findOrFail($id);
-        return view('aluno.editar-turmas', compact('aluno'));
+    public function editarTurmas(Request $request) {
+        
+        $aluno = Aluno::findOrFail($request->id_aluno);
+
+        if (isset($request->turmas)) {
+            $aluno->salvarTurma($request);
+            $aluno = Aluno::findOrFail($request->id_aluno);
+        }
+
+        $alunoTurmas = array();
+        foreach ($aluno->turmas as $turma) {
+            array_push($alunoTurmas, $turma);
+        }
+        
+        $turmas = Turma::where([
+            ['modalidade', '=', $request->modalidade],
+            ['turno', '=', $request->turno],
+            ['serie', '=', $request->serie]
+        ])->get();
+            
+        $turma = null;
+        if (isset($request->id_turma)) {
+            $turma = Turma::findOrFail($request->id_turma);
+            $turma->is_repetente = (isset($request->is_repetente));
+            array_unshift($alunoTurmas, $turma);
+        }
+
+        return view('aluno.editar-turmas', compact('aluno', 'turmas', 'alunoTurmas'));
     }
 
     /**
@@ -74,24 +106,6 @@ class AlunoController extends Controller {
      */
     public function relatorio() {
         return view('aluno.relatorio');
-    }
-
-    /**
-     * 
-     * @* @param String $search
-     * 
-     * @return App\Models\Aluno
-     */
-    public function getAlunos($search) {
-        $alunos = Aluno::join('pessoas', 'pessoas.id', '=', 'alunos.pessoa_id')
-                        ->where('pessoas.nome', 'like', '%'.$search.'%')
-                        ->select([
-                            'alunos.id', 'alunos.matricula', 'alunos.matricula', 'pessoas.nome', 
-                            'pessoas.cpf', 'pessoas.telefone', 'pessoas.celular', 'pessoas.email'
-                        ])
-                        ->get();
-
-        return json_encode($alunos);
     }
     
     /**
@@ -138,5 +152,7 @@ class AlunoController extends Controller {
      * 
      */
     public function teste(Request $request) {
+        $turma = Turma::find($request->id_turma);
+        dd($turma);
     }
 }

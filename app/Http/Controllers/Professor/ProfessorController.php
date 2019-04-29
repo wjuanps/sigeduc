@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Professor;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Arr;
 
 use App\Models\Professor;
 use App\Models\Disciplina;
@@ -87,31 +88,28 @@ class ProfessorController extends Controller {
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function gerarDiarioClasse($idProfessor, $idTurma, $idDisciplina) {
-        $idProfessor = (is_int($idProfessor)) ? $idProfessor : intval($idProfessor);
-        $idTurma = (is_int($idTurma)) ? $idTurma : intval($idTurma);
-        $idDisciplina = (is_int($idDisciplina)) ? $idDisciplina : intval($idDisciplina);
-
-        $turma = Turma::join('professor_has_turmas', 'turmas.id', '=', 'professor_has_turmas.turma_id')
+    public function gerarDiarioClasse(Request $request) {
+        $professores = Professor::all();
+        $alunos = Turma::join('professor_has_turmas', 'turmas.id', '=', 'professor_has_turmas.turma_id')
                         ->join('professors', 'professors.id', '=', 'professor_has_turmas.professor_id')
                         ->join('disciplinas', 'disciplinas.id' ,'=', 'professor_has_turmas.disciplina_id')
-                        ->join('pessoas as p1', 'p1.id', '=', 'professors.pessoa_id')
+                        ->join('pessoas as professor', 'professor.id', '=', 'professors.pessoa_id')
                         ->join('aluno_has_turmas', 'aluno_has_turmas.turma_id', '=', 'turmas.id')
                         ->join('alunos', 'alunos.id', '=', 'aluno_has_turmas.aluno_id')
-                        ->join('pessoas as p2', 'p2.id', '=', 'alunos.pessoa_id')
+                        ->join('pessoas as aluno', 'aluno.id', '=', 'alunos.pessoa_id')
                         ->where([
-                            ['turmas.id',      '=', $idTurma],
-                            ['professors.id',  '=', $idProfessor],
-                            ['disciplinas.id', '=', $idDisciplina]
+                            ['turmas.id',      '=', $request->idTurma],
+                            ['professors.id',  '=', $request->idProfessor],
+                            ['disciplinas.id', '=', $request->idDisciplina]
                         ])
                         ->select([
-                            'turmas.turma as turma', 'turmas.modalidade as modalidade', 
-                            'p1.nome as docente', 'disciplinas.disciplina as disciplina',
-                            'alunos.matricula as matricula', 'p2.nome as discente'
+                            'turmas.nome_turma as nome_turma', 'turmas.modalidade as modalidade', 
+                            'professor.nome as docente', 'disciplinas.disciplina as disciplina',
+                            'alunos.matricula as matricula', 'aluno.nome as discente'
                         ])
                         ->get();
 
-        return response()->json($turma);
+        return view('professor.diario-de-classe', compact('alunos', 'professores'));
     }
 
     /**

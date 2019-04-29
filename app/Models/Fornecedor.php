@@ -18,6 +18,18 @@ class Fornecedor extends Model {
      * @var array
      */   
     protected $guarded = [];
+    
+    /**
+     * 
+     * @var Request
+     */
+    private $request;
+
+    /**
+     * 
+     * @var Fornecedor
+     */
+    private $fornecedor;
 
     /**
      * 
@@ -36,30 +48,32 @@ class Fornecedor extends Model {
             'celular'       => 'required'
         ]);
 
+        $this->request = $request;
+
         DB::transaction(function () {
-            $dataFundacao = explode('/', $request->data_fundacao);
+            $dataFundacao = explode('/', $this->request->data_fundacao);
             $dataFundacao = implode('-', array_reverse($dataFundacao));
     
             $endereco = new Endereco;
-            $endereco = $endereco->salvarEndereco($request);
+            $endereco = $endereco->salvarEndereco($this->request->all());
     
-            return Fornecedor::create([
-                'cnpj'               => $request->cnpj,
+            $this->fornecedor = Fornecedor::create([
+                'cnpj'               => $this->request->cnpj,
                 'endereco_id'        => $endereco->id,
-                'celular'            => $request->celular,
-                'email'              => $request->email,
-                'telefone'           => $request->telefone,
+                'celular'            => $this->request->celular,
+                'email'              => $this->request->email,
+                'telefone'           => $this->request->telefone,
                 'data_fundacao'      => $dataFundacao,
-                'inscricao_estadual' => $request->inscricao_estadual,
-                'nome_fantasia'      => $request->nome_fantasia,
-                'razao_social'       => $request->razao_social,
-                'segmento'           => $request->segmento,
-                'site'               => $request->site,
-                'logo'               => $request->logo,
-                'tipo'               => $request->tipo
+                'inscricao_estadual' => $this->request->inscricao_estadual,
+                'nome_fantasia'      => $this->request->nome_fantasia,
+                'razao_social'       => $this->request->razao_social,
+                'segmento'           => $this->request->segmento,
+                'site'               => $this->request->site,
+                'logo'               => $this->request->logo,
+                'tipo'               => $this->request->tipo
             ]);
         });
-        return null;
+        return $this->fornecedor;
     }
 
     /**

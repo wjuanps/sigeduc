@@ -1,9 +1,16 @@
 'use strict';
 
-var estados = {
-    'estado': ["Acre", "Alagoas", "Amapá", "Amazonas", "Bahia", "Ceará", "Destrito Federal", "Maranhão", "Mato Grosso", "Mato Grosso do Sul", "Minas Gerais", "Pará", "Paraíba", "Paraná", "Pernambuco", "Piauí", "Rio de Janeiro", "Rio Grande do Norte", "Rio Grande do Sul", "Roraima", "Roraima", "São Paulo", "Santa Catarina", "Sergipe", "Tocantins"],
-    'uf': ["AC", "AL", "AP", "AM", "BA", "CE", "DF", "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", "RJ", "RN", "RS", "RO", "RR", "SP", "SC", "SE", "TO"]
-};
+var estados = [
+    [
+        "Acre", "Alagoas", "Amapá", "Amazonas", "Bahia", "Ceará", "Destrito Federal", "Espirito Santo", "Goiás", 
+        "Maranhão", "Mato Grosso", "Mato Grosso do Sul", "Minas Gerais", "Pará", "Paraíba", "Paraná", "Pernambuco", "Piauí", 
+        "Rio de Janeiro", "Rio Grande do Norte", "Rio Grande do Sul", "Rondônia", "Roraima", "Santa Catarina", "São Paulo", "Sergipe", "Tocantins"
+    ], [
+        "AC", "AL", "AP", "AM", "BA", "CE", "DF", "ES", "GO", 
+        "MA", "MT", "MS", "MG", "PA", "PB", "PR", "PE", "PI", 
+        "RJ", "RN", "RS", "RO", "RR", "SC", "SP", "SE", "TO"
+    ]
+];
 
 $(document).ready(function () {
 
@@ -20,7 +27,7 @@ $(document).ready(function () {
     $('.mask-data').inputmask("dd/mm/yyyy", {"placeholder": "dd/mm/aaaa"});
     $('.mask-telefone').inputmask("(99) 9 9999-9999", {"placeholder": "(__) _ ____-____"});
     $('.mask-identidade').inputmask("999999-9", {"placeholder": "______-_"});
-    $('.mask-cpf').inputmask("999.999.999.99", {"placeholder": "___.___.___-__"});
+    $('.mask-cpf').inputmask("999.999.999-99", {"placeholder": "___.___.___-__"});
     $('.mask-cep').inputmask("99999-999", {"placeholder": "_____-___"});
 
     // Initialize datatables
@@ -45,18 +52,16 @@ $(document).ready(function () {
  * 
  */
 var carregarUfs = function () {
-    let uf1 = $('.uf1');
-    let uf2 = $('.uf2');
-    let uf3 = $('.uf3');
-    let uf4 = $('.uf4');
-    let selected1 = (!!$('.ufHidden1').val()) ? $('.ufHidden1').val() : '';
-    let selected2 = (!!$('.ufHidden2').val()) ? $('.ufHidden2').val() : '';
-    let selected3 = (!!$('.ufHidden3').val()) ? $('.ufHidden3').val() : '';
-    let selected4 = (!!$('.ufHidden4').val()) ? $('.ufHidden4').val() : '';
-    estados.uf.forEach(function (e) {
-        uf1.append("<option " + ((selected1 === e) ? 'selected' : '') + " value='" + e + "'>" + e + "</option>");
-        uf2.append("<option " + ((selected2 === e) ? 'selected' : '') + " value='" + e + "'>" + e + "</option>");
-        uf3.append("<option " + ((selected3 === e) ? 'selected' : '') + " value='" + e + "'>" + e + "</option>");
-        uf4.append("<option " + ((selected4 === e) ? 'selected' : '') + " value='" + e + "'>" + e + "</option>");
-    });
+    let _uf1 = $('.uf1');
+    let _uf2 = $('.uf2');
+    let _uf3 = $('.uf3');
+    let _uf4 = $('.uf4');
+    let _selected1 = (!!$('.ufHidden1').val()) ? $('.ufHidden1').val() : '';
+    let _selected2 = (!!$('.ufHidden2').val()) ? $('.ufHidden2').val() : '';
+    for (let i = 0; i < estados[0].length; i++) {            
+        _uf1.append("<option " + ((_selected1 === estados[1][i]) ? 'selected' : '') + " value='" + estados[1][i] + "'>" + estados[0][i] + "</option>");
+        _uf2.append("<option " + ((_selected2 === estados[1][i]) ? 'selected' : '') + " value='" + estados[1][i] + "'>" + estados[0][i] + "</option>");
+        _uf3.append("<option value='" + estados[1][i] + "'>" + estados[0][i] + "</option>");
+        _uf4.append("<option value='" + estados[1][i] + "'>" + estados[0][i] + "</option>");
+    }
 };

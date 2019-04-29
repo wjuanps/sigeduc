@@ -68,8 +68,10 @@
 					<input type="text" class="form-control" id="naturalidade" name="naturalidade" value="{{ $aluno->pessoa->naturalidade }}" placeholder="Naturalidade" />
 				</div>
 				<div class="form-group col-md-3">
-					<label for="ufNaturalidade">UF</label>
-					<select name="naturalidade_uf" id="ufNaturalidade" class="form-control uf1"></select>
+					<label for="ufNaturalidade">Estado</label>
+					<select name="naturalidade_uf" id="ufNaturalidade" class="form-control uf1">
+						<option value="">Selecione</option>
+					</select>
 					<input type="hidden" disabled value="{{ $aluno->pessoa->naturalidade_uf }}" class="ufHidden1" />
 				</div>
 			</div>
@@ -147,8 +149,10 @@
 					<input type="text" name="cidade" class="form-control" id="cidade" value="{{ $aluno->pessoa->endereco->cidade }}" placeholder="Cidade" />
 				</div>
 				<div class="form-group col-md-4">
-					<label for="uf">UF</label>
-					<select name="uf" id="uf" class="form-control uf2"></select>
+					<label for="uf">Estado</label>
+					<select name="uf" id="uf" class="form-control uf2">
+						<option value="">Selecione</option>
+					</select>
 					<input type="hidden" disabled value="{{ $aluno->pessoa->endereco->uf }}" class="ufHidden2" />
 				</div>
 				<div class="form-group col-md-4">
@@ -230,8 +234,10 @@
 						<input type="text" class="form-control" id="naturalidadeResponsavel" placeholder="Naturalidade" />
 					</div>
 					<div class="form-group col-md-3">
-						<label for="ufNaturalidadeResponsavel">UF</label>
-						<input type="text" class="form-control" id="ufNaturalidadeResponsavel" placeholder="UF" />
+						<label for="ufNaturalidadeResponsavel">Estado</label>
+						<select id="ufNaturalidadeResponsavel" class="form-control uf3">
+							<option value="">Selecione</option>
+						</select>
 					</div>
 				</div>
 
@@ -294,8 +300,10 @@
 						<input type="text" class="form-control" id="cidadeResponsavel" placeholder="Cidade" />
 					</div>
 					<div class="form-group col-md-4">
-						<label for="ufResponsavel">UF</label>
-						<input type="text" class="form-control" id="ufResponsavel" placeholder="UF" />
+						<label for="ufResponsavel">Estado</label>
+						<select id="ufNaturalidadeResponsavel" class="form-control uf4">
+							<option value="">Selecione</option>
+						</select>
 					</div>
 					<div class="form-group col-md-4">
 						<label for="cepResponsavel">CEP</label>

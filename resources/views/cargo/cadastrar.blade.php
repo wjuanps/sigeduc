@@ -16,6 +16,8 @@
 <form action="{{ Route('gravar-cargo') }}" method="POST">
 	@csrf
 
+	@include('includes.alert-errors')
+
 	<div class="box box-primary">
 		<div class="box-header with-border">
 			<h3 class="box-title">Dados do Cargo</h3>
@@ -40,20 +42,6 @@
 					<textarea name="descricao" id="descricao" class="form-control" placeholder="Descrição" required="required" rows="3"></textarea>
 				</div>
             </div>
-
-			<div class="row-fluid">
-				<div class="form-group col-md-12">
-					@if ($errors->any())
-						<div class="alert alert-danger">
-							<ul>
-								@foreach ($errors->all() as $error)
-									<li>{{ $error }}</li>
-								@endforeach
-							</ul>
-						</div>
-					@endif
-				</div>
-			</div>
 
             <div class="row-fluid">
                 <div class="form-group col-md-12"><br />

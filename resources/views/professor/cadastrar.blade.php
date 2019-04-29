@@ -16,6 +16,8 @@
 <form action="{{ Route('gravar-professor') }}" method="POST" class="form">
 	@csrf
 
+	@include('includes.alert-errors')
+
 	<div class="box box-primary">
 		<div class="box-header with-border">
 			<h3 class="box-title">Dados Pessoais</h3>
@@ -260,21 +262,6 @@
 
 	<div class="box box-warning">
 		<div class="box-body">
-
-			<div class="row-fluid">
-				<div class="form-group col-md-12">
-					@if ($errors->any())
-						<div class="alert alert-danger">
-							<ul>
-								@foreach ($errors->all() as $error)
-									<li>{{ $error }}</li>
-								@endforeach
-							</ul>
-						</div>
-					@endif
-				</div>
-			</div>
-
 			<button class="btn btn-primary" id="submeterCadastroProfessor" type="button">Salvar Alterações</button>
 			<a href="{{ Route('professor') }}" class="btn btn-danger">Cancelar</a>
 		</div>

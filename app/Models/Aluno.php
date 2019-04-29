@@ -6,6 +6,7 @@ use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Arr;
 
 /**
  * 
@@ -25,6 +26,12 @@ class Aluno extends Model {
      * @var Aluno
      */
     private $aluno;
+
+    /**
+     * 
+     * @var Turma
+     */
+    private $turma;
 
     /**
      * 
@@ -85,6 +92,41 @@ class Aluno extends Model {
 
     /**
      * 
+     * @* @param Request $request
+     */
+    public function salvarTurma(Request $request) {
+        $this->request = $request;
+
+        DB::transaction(function () {
+            $novasTurmas = array_unique($this->request->turmas);
+            foreach ($this->turmas as $turma) {
+                $this->turma = $turma;
+                if (in_array($turma->id, $novasTurmas)) {
+                    $novasTurmas = array_filter($novasTurmas, function ($e) {
+                        return $this->turma->id != $e;
+                    });
+                }
+            }
+
+            if (count($novasTurmas) > 0) {
+                $repetente = array_filter($this->request->is_repetente, function ($value) {
+                    return !is_null($value);
+                });
+                
+                $is_repetente = boolval(Arr::first($repetente));
+                $novaTurma = intval(Arr::first($novasTurmas));
+    
+                if ($novaTurma > 0) {
+                    $this->turmas()->attach($novaTurma, [
+                        'is_repetente' => $is_repetente
+                    ]);
+                }
+            }
+        });
+    }
+
+    /**
+     * 
      */
     public function pessoa() {
         return $this->belongsTo(Pessoa::class);
@@ -103,7 +145,7 @@ class Aluno extends Model {
      */
     public function turmas() {
         return $this->belongsToMany(Turma::class, 'aluno_has_turmas')
-                        ->withPivot('ano', 'is_repetente');
+                        ->withPivot('is_repetente');
     }
 
     /**

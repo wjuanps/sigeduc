@@ -111,7 +111,7 @@ Route::prefix('professor')->group(function () {
      *
      * @return
      */
-    Route::get('get/professores/diario-de-classe/{idProfessor}/{idTurma}/{idDisciplina}', 'Professor\ProfessorController@gerarDiarioClasse')->name('gerar-diario-de-classe');
+    Route::post('diario-de-classe', 'Professor\ProfessorController@gerarDiarioClasse')->name('gerar-diario-de-classe');
     /**
      * 
      *
@@ -152,19 +152,13 @@ Route::prefix('aluno')->group(function () {
      *
      * @return
      */
-    Route::get('turmas/editar/{matricula}', 'Aluno\AlunoController@editarTurmas')->name('editar-turmas-aluno');
+    Route::post('turmas/editar', 'Aluno\AlunoController@editarTurmas')->name('editar-turmas-aluno');
     /**
      * 
      *
      * @return
      */
     Route::get('relatorio', 'Aluno\AlunoController@relatorio')->name('relatorio-aluno');
-    /**
-     * 
-     *
-     * @return
-     */
-    Route::get('get/{search}', 'Aluno\AlunoController@getAlunos')->name('get-aluno');
     /**
      * 
      *
@@ -341,13 +335,19 @@ Route::prefix('turma')->group(function () {
      *
      * @return
      */
-    Route::get('get/turmas/{filter}', 'Turma\TurmaController@getTurmasAluno')->name('get-turmas-aluno');
+    Route::get('get/nome-turma/{nomeTurma}', 'Turma\TurmaController@nomeTurma')->name('nome-turma');
     /**
      * 
      *
      * @return
      */
-    Route::get('get/turmas/{idDisciplina}/{idProfessor}', 'Turma\TurmaController@getTurmasProfessor')->name('get-turmas-professor');
+    Route::post('alunos/adicionar', 'Turma\TurmaController@adicionarAlunos')->name('adicionar-alunos');
+    /**
+     * 
+     *
+     * @return
+     */
+    Route::post('grade-de-professores', 'Turma\TurmaController@gradeDeProfessores')->name('grade-de-professores');
     /**
      * 
      *

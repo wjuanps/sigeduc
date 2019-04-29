@@ -48,7 +48,7 @@
 									</button>
 									<ul class="dropdown-menu" role="menu">
 										<li><a href="{{ Route('editar-professor', $professor->id) }}">Editar</a></li>
-										<li><a href="#">Diário de Classe</a></li>
+										<li><a href="{{ Route('diario-de-classe') }}">Diário de Classe</a></li>
 										<li class="divider"></li>
 										<li><a href="#">Remover</a></li>
 									</ul>

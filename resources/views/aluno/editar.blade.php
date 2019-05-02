@@ -57,7 +57,7 @@
 			<div class="row-fluid">
 				<div class="form-group col-md-3">
 					<label for="nascimento">Nascimento</label>
-					<input type="text" name="data_nascimento" class="form-control mask-data" id="nascimento" value="{{ $aluno->pessoa->data_nascimento }}" placeholder="Nascimento" />
+					<input type="text" name="data_nascimento" class="form-control mask-data" id="nascimento" value="{{ date_format(date_create($aluno->pessoa->data_nascimento), 'd/m/Y') }}" placeholder="Nascimento" />
 				</div>
 				<div class="form-group col-md-3">
 					<label for="nacionalidade">Nacionalidade</label>
@@ -95,30 +95,27 @@
 
 			<div class="row-fluid">
 				<div class="form-group col-md-3">
-					<div class="checkbox" style="margin-top: 20px">
-						<label>
-							<input type="checkbox" name="pratica_ed_fisica" id="praticaEdFisica" {{ ($aluno->pratica_ed_fisica) ? 'checked' : '' }} />
-							Pratica ed. Física
-						</label>
-					</div>
+					<label for="praticaEdFisica">Pratica ed. Física</label>
+					<select name="pratica_ed_fisica" id="praticaEdFisica" class="form-control">
+						<option value="Nao">Não</option>
+						<option value="Sim" {{ (($aluno->pratica_ed_fisica) ? 'selected' : '') }}>Sim</option>
+					</select>
 				</div>
 
 				<div class="form-group col-md-3">
-					<div class="checkbox" style="margin-top: 20px">
-						<label>
-							<input type="checkbox" name="irmao_na_escola" id="irmaosNaEscola" {{ ($aluno->irmao_na_escola) ? 'checked' : '' }} />
-							Irmãos na Escola
-						</label>
-					</div>
+					<label for="irmaosNaEscola">Irmãos na Escola</label>
+					<select name="irmao_na_escola" id="irmaosNaEscola" class="form-control">
+						<option value="Nao">Não</option>
+						<option value="Sim" {{ (($aluno->irmao_na_escola) ? 'selected' : '') }}>Sim</option> 
+					</select>
 				</div>
 
 				<div class="form-group col-md-3">
-					<div class="checkbox" style="margin-top: 20px">
-						<label>
-							<input type="checkbox" name="pai_declarado" id="irmaosNaEscola" {{ ($aluno->pai_declarado) ? 'checked' : '' }} />
-							Pai Declarado
-						</label>
-					</div>
+					<label for="paiDeclarado">Pai Declarado</label>
+					<select name="pai_declarado" id="paiDeclarado" class="form-control">
+						<option value="Nao">Não</option>
+						<option value="Sim" {{ (($aluno->pai_declarado) ? 'selected' : '') }}>Sim</option>
+					</select>
 				</div>
 			</div>
 
@@ -189,12 +186,12 @@
 		<div class="box-body">
 			<div id="formularioCadastroResponsavel" class="hidden">
 				<div class="row-fluid">
-					<div class="form-group col-md-4">
+					<div class="form-group col-md-5">
 						<label for="nomeResponsavel">Nome Completo</label>
 						<input type="text" class="form-control" id="nomeResponsavel" placeholder="Informe o nome" />
 					</div>
 					
-					<div class="form-group col-md-4">
+					<div class="form-group col-md-3">
 						<label for="parentesco">Parentesco</label>
 						<input type="text" class="form-control" id="parentesco" placeholder="Informe o parentesco" />
 					</div>
@@ -252,24 +249,20 @@
 						<input type="text" class="form-control mask-cpf" id="cpfResponsavel" placeholder="CPF" />
 					</div>
 
-					<div class="form-group col-md-6">
-						<div class="form-group col-md-6">
-							<div class="checkbox" style="margin-top: 30px">
-								<label>
-									<input type="checkbox" id="moraComOFilho" onchange="copiarEnderecoAlunoParaResponsavel(this)" />
-									Mora com o Filho
-								</label>
-							</div>
-						</div>
+					<div class="form-group col-md-3">
+						<label for="moraComOFilho">Mora com o filho</label>
+						<select id="moraComOFilho" class="form-control" onchange="copiarEnderecoAlunoParaResponsavel(this.value)">
+							<option value="Nao">Não</option>
+							<option value="Sim">Sim</option>
+						</select>
+					</div>
 						
-						<div class="form-group col-md-6">
-							<div class="checkbox" style="margin-top: 30px">
-								<label>
-									<input type="checkbox" id="outroFilhoNaEscola" />
-									Outro Filho na Escola
-								</label>
-							</div>
-						</div>
+					<div class="form-group col-md-3">
+						<label for="outroFilhoNaEscola">Outro filho na Escola</label>
+						<select id="outroFilhoNaEscola" class="form-control">
+							<option value="Nao">Não</option>
+							<option value="Sim">Sim</option>
+						</select>
 					</div>
 				</div>
 
@@ -336,7 +329,7 @@
 					</div>
 
 					<div class="form-group col-md-2">
-						<button class="btn btn-success pesquisar-responsavel" type="button">Pesquisar</button>
+						<button class="btn btn-success pesquisar-responsavel" title="Pesquisar" type="button"><i class="fa fa-search fw"></i></button>
 					</div>
 				</div>
 
@@ -348,8 +341,8 @@
 									<th>Nome</th>
 									<th>CPF</th>
 									<th>Parentesco</th>
-									<th>#</th>
-									<th>#</th>
+									<th>Outro Filho na Escola</th>
+									<th>Mora com o Filho</th>
 									<th>#</th>
 								</tr>
 							</thead>
@@ -407,8 +400,8 @@
 										<td>{{ $responsavel->pessoa->telefone }}</td>
 										<td>{{ $responsavel->pessoa->celular }}</td>
 										<td>{{ $responsavel->pessoa->email }}</td>
-										<td>{{ $responsavel->pivot->mora_com_filho }}</td>
-										<td>{{ $responsavel->id }}</td>
+										<td>{{ (($responsavel->pivot->mora_com_filho) ? 'Sim' : 'Não') }}</td>
+										<td><button class="btn btn-success btn-sm"><i class="fa fa-edit fw"></i></button></td>
 									</tr>
 								@endforeach
 							@endisset

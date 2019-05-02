@@ -25,8 +25,8 @@
 				<div class="row-fluid">
 					<div class="form-group col-md-3">
 						<label for="serie">Professor</label>
-						<select class="form-control select2 select2-hidden-accessible" name="idProfessor" onchange="buscarDisciplinas(this.value)" style="width: 100%;" tabindex="-1" aria-hidden="true">
-							<option selected="selected">Selecione</option>
+						<select class="form-control select2 select2-hidden-accessible" required="required" name="idProfessor" onchange="buscarDisciplinas(this.value, 0)" style="width: 100%;" tabindex="-1" aria-hidden="true">
+							<option value=''>Selecione</option>
 							@isset($professores)
 								@foreach($professores as $professor)
 									<option value="{{ $professor->id }}">{{ $professor->pessoa->nome }}</option>
@@ -37,15 +37,15 @@
 
 					<div class="form-group col-md-3">
 						<label for="serie">Disciplina</label>
-						<select class="form-control select2 select2-hidden-accessible select-disciplina" name="idDisciplina" onchange="buscarTurmas(this.value)" style="width: 100%;" tabindex="-1" aria-hidden="true">
-							<option selected="selected">Selecione</option>
+						<select class="form-control select2 select2-hidden-accessible select-disciplina" required="required" name="idDisciplina" onchange="buscarTurmas(this.value)" style="width: 100%;" tabindex="-1" aria-hidden="true">
+							<option value=''>Selecione</option>
 						</select>
 					</div>
 
 					<div class="form-group col-md-3">
 						<label for="serie">Turma</label>
-						<select class="form-control select2 select2-hidden-accessible select-turma" name="idTurma" onchange="getIdTurma(this.value)" style="width: 100%;" tabindex="-1" aria-hidden="true">
-							<option selected="selected">Selecione</option>
+						<select class="form-control select2 select2-hidden-accessible select-turma" required="required" name="idTurma" onchange="getIdTurma(this.value)" style="width: 100%;" tabindex="-1" aria-hidden="true">
+							<option value=''>Selecione</option>
 						</select>
 					</div>
 

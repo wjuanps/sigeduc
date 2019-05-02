@@ -24,6 +24,8 @@ $(document).ready(function () {
         $('#salvarDadosResponsavel').toggleClass('hidden');
     });
 
+    inicializarNotas();
+
 });
 
 /*
@@ -35,8 +37,49 @@ $(document).ready(function () {
 |
 */
 
+var habilitarDesabilitarBotaoAdicionarNota = function () {
+    let _nota = $($('.tempNotasSelect').get(-1)).val();
+    let _avaliacao = $($('.tempAvaliacoesSelect').get(-1)).val();
+
+    if (_nota !== '' && _avaliacao !== '') {
+        $('#adicionarAvaliacao').removeAttr('disabled');
+    } else {
+        $('#adicionarAvaliacao').prop('disabled', true);
+    }
+};
+
 /**
  * 
+ */
+var inicializarNotas = function () {
+    try {
+        $('.notas').each(function (i, e) {
+            $($('.notasSelect')[i]).val(e.value).trigger('change');
+        });
+    } catch (error) { console.error(error) }
+
+    try {
+        $('.avaliacoes').each(function (i, e) {
+            $($('.avaliacoesSelect')[i]).val(e.value).trigger('change');
+        });
+    } catch (error) { console.error(error) }
+
+    try {
+        $('.tempNotas').each(function (i, e) {
+            $($('.tempNotasSelect')[i]).val(e.value).trigger('change');
+        });
+    } catch (error) { console.error(error) }
+
+    try {
+        $('.tempAvaliacoes').each(function (i, e) {
+            $($('.tempAvaliacoesSelect')[i]).val(e.value).trigger('change');
+        });
+    } catch (error) { console.error(error) }
+}
+
+/**
+ * 
+ * @param {string} search
  */
 var pesquisarResponsavel = function (search) {
     let _table = $('#tabelaResponsavel tbody');
@@ -54,8 +97,18 @@ var pesquisarResponsavel = function (search) {
                                 "<td>" + e.nome + "</td>" +
                                 "<td>" + e.cpf + "</td>" +
                                 "<td><input type='text' class='form-control' /></td>" +
-                                "<td><div class='checkbox'><label><input type='checkbox' /> Outro Filho na Escola</label></div></td>" +
-                                "<td><div class='checkbox'><label><input type='checkbox' /> Mora com o Filho</label></div></td>" +
+                                "<td>" +
+                                    "<select class='form-control'>" + 
+                                        "<option value='Sim'>Sim</option>" +
+                                        "<option value='Nao'>Não</option>" +
+                                    "</select>" +
+                                "</td>" +
+                                "<td>" +
+                                    "<select class='form-control'>" + 
+                                        "<option value='Sim'>Sim</option>" +
+                                        "<option value='Nao'>Não</option>" +
+                                    "</select>" +
+                                "</td>" +
                                 "<td>" + 
                                     "<button type='button' onclick='adicionarAlunoResponsavel(" + JSON.stringify(e) + ", " + i + ")' class='btn btn-success'>" + 
                                         "<i class='fa fa-check-square-o fw'></i>" + 
@@ -77,11 +130,10 @@ var pesquisarResponsavel = function (search) {
 
 /**
  * 
- * @param {*} responsavel 
- * @param {*} i 
+ * @param {object} responsavel 
+ * @param {number} i 
  */
 var adicionarAlunoResponsavel = function (responsavel, i) {
-    console.log(responsavel);
     let _table = $('#tabelaResponsavel tbody tr');
     let _tr = _table[i];
     let _td = $(_tr).children();
@@ -90,8 +142,8 @@ var adicionarAlunoResponsavel = function (responsavel, i) {
         'responsavel': responsavel,
         'alunoHasResponsavel': {
             'parentesco': $(_td[2]).find('input').val(),
-            'outro_filho_na_escola': $(_td[3]).find('input').is(':checked'),
-            'mora_com_filho': $(_td[4]).find('input').is(':checked')
+            'outro_filho_na_escola': ($(_td[3]).find('select').val() === 'Sim'),
+            'mora_com_filho': ($(_td[4]).find('select').val() === 'Sim')
         }
     };
 
@@ -130,13 +182,13 @@ var salvarDadosResponsavel = function () {
             },
             'alunoHasResponsavel': {
                 'parentesco': $('#parentesco').val(),
-                'outro_filho_na_escola': $('#outroFilhoNaEscola').is(':checked'),
-                'mora_com_filho': $('#moraComOFilho').is(':checked')
+                'outro_filho_na_escola': ($('#outroFilhoNaEscola').val() === 'Sim'),
+                'mora_com_filho': ($('#moraComOFilho').val() === 'Sim') 
             }
         };
         
-        $('#moraComOFilho').prop('checked', false);
-        $('#outroFilhoNaEscola').prop('checked', false);
+        $('#moraComOFilho').val('Nao');
+        $('#outroFilhoNaEscola').val('Nao');
         $("#sexoResponsavel").prop('checked', true);
         $('#nomeResponsavel').val('');
         $('#nascimentoResponsavel').val('');
@@ -220,10 +272,10 @@ var carregarTabelaResponsaveisEdicao = function () {
 
 /**
  * 
- * @param {*} obj 
+ * @param {string} value 
  */
-var copiarEnderecoAlunoParaResponsavel = function (obj) {
-    if (obj.checked) {
+var copiarEnderecoAlunoParaResponsavel = function (value) {
+    if (value === 'Sim') {
         $('#ruaResponsavel').val($('#rua').val());
         $('#complementoResponsavel').val($('#complemento').val());
         $('#bairroResponsavel').val($('#bairro').val());
@@ -242,7 +294,7 @@ var copiarEnderecoAlunoParaResponsavel = function (obj) {
 
 /**
  * 
- * @param {*} aluno 
+ * @param {object} aluno 
  */
 var adicionarAlunoTurma = function (aluno) {
     alunosMatriculados.push(aluno);
@@ -282,4 +334,16 @@ var submeterCadastroAluno = function () {
     $('#responsaveisAluno').val(_responsaveis);
     $('#turmasAluno').val(_turmas);
     $('.formCadastroAluno').submit();
+};
+
+/**
+ * 
+ * @param {number} value 
+ */
+var habilitarDesabilitarBotaoSubmit = function (value) {
+    if (value > 0) {
+        $('#submeterFormSelecionarProfessorDisciplina').removeAttr('disabled');
+    } else {
+        $('#submeterFormSelecionarProfessorDisciplina').prop('disabled', true);
+    }
 };

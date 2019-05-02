@@ -53,10 +53,10 @@ class Turma extends Model {
                 'serie'           => $request->serie,
                 'turno'           => $request->turno,
                 'modalidade'      => $request->modalidade,
-                'ano'             => $request->ano,
+                'ano'             => date_format(date_create(), 'Y'),
                 'descriao_turma'  => $request->descriao_turma,
                 'descricao_serie' => $request->descricao_serie,
-                'desativada_em'   => date_create()
+                'desativada_em'   => null
             ]);
         });
         return $this->turma;

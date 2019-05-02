@@ -255,7 +255,7 @@
 			<div class="row-fluid">
 				<div class="form-group">
 					<label>Disciplinas</label>
-					<select class="form-control select2 select2-hidden-accessible" name="disciplinas[]" multiple="" data-placeholder="Selecionar Desciplina"
+					<select class="form-control select2 select2-hidden-accessible" name="disciplinas[]" multiple="" data-placeholder="Selecionar Disciplina"
 						style="width: 100%;" tabindex="-1" aria-hidden="true">
 						@foreach($disciplinas as $disciplina)
 							<option {{ in_array($disciplina->disciplina, $disciplinasProfessor) ? 'selected' : '' }} value="{{ $disciplina->id }}">{{ $disciplina->disciplina }}</option>
@@ -269,7 +269,7 @@
 	<div class="box box-warning">
 		<div class="box-body">
 			<button class="btn btn-primary" type="button" id="submeter">Salvar Alterações</button>
-			<a href="{{ Route('home') }}" class="btn btn-danger" id="submeter">Cancelar</a>
+			<a href="{{ Route('professor') }}" class="btn btn-danger" id="submeter">Cancelar</a>
 		</div>
 	</div>
 </form>

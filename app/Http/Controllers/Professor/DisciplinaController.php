@@ -54,9 +54,28 @@ class DisciplinaController extends Controller {
 
     /**
      * 
+     * @* @param int $idProfessor
+     * @* @param int $idTurma
      */
-    public function getDisciplinas($idProfessor) {
-        $disciplinas = Professor::find($idProfessor)->disciplinas;
+    public function getDisciplinas($idProfessor, $idTurma) {
+        if ($idTurma > 0) {
+            $disciplinas = Disciplina::join('professor_has_disciplinas', 'disciplinas.id', '=', 'professor_has_disciplinas.disciplina_id')
+                                        ->join('professors', 'professors.id', '=', 'professor_has_disciplinas.professor_id')
+                                        ->join('professor_has_turmas', [
+                                            ['professors.id', '=', 'professor_has_turmas.professor_id'], 
+                                            ['disciplinas.id', '=', 'professor_has_turmas.disciplina_id']
+                                        ])
+                                        ->join('turmas', 'turmas.id','=', 'professor_has_turmas.turma_id')
+                                        ->where([
+                                            ['turmas.id', '=', $idTurma],
+                                            ['professors.id', '=', $idProfessor]
+                                        ])
+                                        ->select(['disciplinas.id', 'disciplinas.disciplina'])
+                                        ->get()->unique();
+        } else {
+            $disciplinas = Professor::find($idProfessor)->disciplinas;
+        }
+
         return json_encode($disciplinas);
     }
     

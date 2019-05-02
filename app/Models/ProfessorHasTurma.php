@@ -22,4 +22,20 @@ class ProfessorHasTurma extends Model {
      * @var array
      */   
     protected $guarded = [];
+
+    /**
+     * 
+     */
+    public function turmas() {
+        return $this->belongsToMany(Turma::class, 'professor_has_turmas')
+                        ->withPivot('disciplina_id', 'professor_id');
+    }
+
+    /**
+     * 
+     */
+    public function professores() {
+        return $this->belongsToMany(Professor::class, 'professor_has_turmas')
+                        ->withPivot('disciplina_id', 'professor_id');
+    }
 }

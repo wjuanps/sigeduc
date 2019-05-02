@@ -1,19 +1,19 @@
 @extends('layouts.layout')
 
 @section('page-header')
-<h1>Editar Turma</h1>
+<h1>Editar Turma {{ $turma->nome_turma }}</h1>
 @endsection
 
 @section('breadcrumb')
 <ol class="breadcrumb">
-	<li><a href="{{ Route('home') }}"><i class="fa fa-dashboard"></i> Dashboard</a></li>
-	<li><a href="{{ Route('turma') }}"> Turma</a></li>
-	<li class="active"> Cadastrar</li>
+	<li><a href="{{ Route('home') }}"><i class="fa fa-dashboard fw"></i> Dashboard</a></li>
+	<li><a href="{{ Route('turma') }}"> Turmas</a></li>
+	<li class="active"> Editar</li>
 </ol>
 @endsection
 
 @section('content')
-<form action="{{ Route('gravar-turma') }}" method="POST" id="formCadastrarTurma">
+<form action="{{ Route('turma-teste') }}" method="POST" id="formCadastrarTurma">
 	@csrf
 
 	@include('includes.alert-errors')
@@ -25,9 +25,9 @@
 		<!-- form start -->
 		<div class="box-body">
 			<div class="row-fluid">
-				<div class="form-group col-md-3">
+				<div class="form-group col-md-4">
 					<label for="modalidade">Modalidade</label>
-					<select name="modalidade" id="modalidade" value="{{ $turma->modalidade }}" onchange="selecionarSerie(this.value)" class="form-control">
+					<select name="modalidade" id="modalidade" value="{{ $turma->modalidade }}" class="form-control">
                         <option value="">Escolha a Modalidade</option>
                         <option value="Ensino Fundamental">Ensino Fundamental</option>
                         <option value="Ensino Médio">Ensino Médio</option>
@@ -35,19 +35,21 @@
                     </select>
 				</div>
 
-				<div class="form-group col-md-3">
+				<div class="form-group col-md-4">
                     <label for="serie">Série</label>
 					<select name="serie" id="serie" value="{{ $turma->serie }}" class="form-control">
                         <option value="">Escolha a Série</option>
                     </select>
 				</div>
 
-				<div class="form-group col-md-3">
+				<div class="form-group col-md-4">
                     <label for="descricaoSerie">Descrição da Série</label>
 					<input type="text" name="descricao_serie" class="form-control" id="descricaoSerie" value="{{ $turma->descricao_serie }}" placeholder="Descrição da Série" />
 				</div>
+			</div>
 
-				<div class="form-group col-md-3">
+			<div class="row-fluid">
+				<div class="form-group col-md-4">
                     <label for="turno">Turno</label>
 					<select name="turno" id="turno" value="{{ $turma->turno }}" class="form-control">
                         <option value="">Escolha o Turno</option>
@@ -56,129 +58,69 @@
                         <option value="Noturno">Noturno</option>
                     </select>	
 				</div>
-			</div>
-
-			<div class="row-fluid">
-				<div class="form-group col-md-3">
-					<label for="turma">Turma</label>
-					<input type="text" name="nome_turma" class="form-control" value="{{ $turma->nome_turma }}" id="turma" placeholder="Turma" />
-				</div>
-				<div class="form-group col-md-3">
+				
+				<div class="form-group col-md-4">
 					<label for="descricaoTurma">Descrição da Turma</label>
 					<input type="text" name="descriao_turma" class="form-control" id="descricaoTurma" value="{{ $turma->descriao_turma }}" placeholder="Descrição da Turma" />
 				</div>
-				<div class="form-group col-md-3">
-					<label for="dataCadastro">Data Cadastro</label>
-					<input type="text" class="form-control mask-data" id="dataCadastro" name="dataCadastro" value="{{ date_format(date_create(), 'd/m/Y' ) }}" placeholder="Data Cadastro" disabled />
-				</div>
-				<div class="form-group col-md-3">
-					<label for="modificadaEm">Modificada Em</label>
-					<input type="text" class="form-control mask-data" id="modificadaEm" name="modificadaEm" value="{{ date_format(date_create(), 'd/m/Y' ) }}" placeholder="Modificada Em" disabled />
-				</div>
-			</div>
 
-			<div class="row-fluid">
-				<div class="form-group col-md-3">
+				<div class="form-group col-md-2">
                     <div class="checkbox" style="margin-top: 35px">
                         <label>
-                          <input type="checkbox" name="is_active" id="isAtiva" checked />
+                          <input type="checkbox" name="is_active" id="isAtiva" {{ (($turma->is_active) ? 'checked' : '') }} />
                           Ativada
                         </label>
                     </div>
 				</div>
 				
-				<div class="form-group col-md-3">
+				<div class="form-group col-md-2">
                     <div class="checkbox" style="margin-top: 35px">
                         <label>
-                          <input type="checkbox" name="is_cancelada" id="isCancelada" />
+                          <input type="checkbox" name="is_cancelada" id="isCancelada" {{ (($turma->is_cancelada) ? 'checked' : '') }} />
                           Cancelada
                         </label>
                     </div>
 				</div>
+			</div>
+
+			<div class="row-fluid">
+				<div class="form-group col-md-3">
+					<label for="dataCadastro">Data Cadastro</label>
+					<input type="text" class="form-control mask-data" id="dataCadastro" name="dataCadastro" value="{{ date_format(date_create($turma->created_at), 'd/m/Y' ) }}" disabled />
+				</div>
+				<div class="form-group col-md-3">
+					<label for="modificadaEm">Modificada Em</label>
+					<input type="text" class="form-control mask-data" id="modificadaEm" name="modificadaEm" value="{{ date_format(date_create($turma->modified_at), 'd/m/Y' ) }}" disabled />
+				</div>
 
 				<div class="form-group col-md-3">
                     <label for="canceladaEm">Cancelada Em</label>
-					<input type="text" class="form-control mask-data" id="canceladaEm" name="cancelado_em" placeholder="Cancelada Em" disabled />
+					<input type="text" class="form-control mask-data" id="canceladaEm" name="cancelado_em" value="{{ (($turma->cancelada_em) ? date_format(date_create($turma->cancelada_em), 'd/m/Y' ) : '') }}" placeholder="Cancelada Em" disabled />
 				</div>
 
 				<div class="form-group col-md-3">
-                    <label for="ativadaEm">Ativada Em</label>
-					<input type="text" class="form-control mask-data" id="ativadaEm" name="ativadaEm"  placeholder="Ativada Em" disabled />
+                    <label for="ativadaEm">Desativada Em</label>
+					<input type="text" class="form-control mask-data" id="ativadaEm" name="desativada_em" value="{{ (($turma->desativada_em) ? date_format(date_create($turma->desativada_em), 'd/m/Y' ) : '') }}" placeholder="Desativada Em" disabled />
 				</div>
-
-			</div>
-
-			<div class="form-group col-md-3">
-				<input type="hidden" class="form-control" name="created_at" disabled id="dataCadastro" value="{{ date_format(date_create(), 'Y-m-d H:i:s' ) }}" />
-			</div>
-
-		</div><!-- /.box-body -->
-	</div>
-
-	<div class="box box-info">
-		<div class="box-header with-border">
-			<h3 class="box-title">Grade de Professores</h3>
-		</div><!-- /.box-header -->
-		<!-- form start -->
-		<div class="box-body">
-			<div class="row-fluid">
-                <div class="form-group col-md-5">
-                    <label>Disciplinas</label>
-                    <select class="form-control select-disciplina" onchange="buscarProfessores(this.value)" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                        <option value="">Selecione a Disciplina</option>
-                        @foreach($disciplinas as $disciplina)
-                            <option value="{{ $disciplina->id.' - '.$disciplina->disciplina}}">{{ $disciplina->disciplina }}</option>
-                        @endforeach
-                    </select>
-                </div>
-
-                <div class="form-group col-md-5">
-                    <label>Professores</label>
-                    <select class="form-control select-professor" style="width: 100%;" tabindex="-1" aria-hidden="true">
-                        <option selected='selected'>Selecione o Professor</option>
-                    </select>
-                </div>
-
-                <div class="form-group col-md-2">
-                    <button class="btn btn-success add-disciplina" type="button" style="margin-top: 23px">Adicionar</button>
-                </div>
 			</div>
 
 			<div class="row-fluid">
-                <div class="form-group col-md-12">
-				
-                    <table class="table table-striped table-responsive" id="tabelaDisciplinaProfessor">
-                        <thead>
-                            <tr>
-                                <th>Matricula Professor</th>
-                                <th>Nome Professor</th>
-                                <th>Código Disciplina</th>
-                                <th>Nome Disciplina</th>
-                                <th>#</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @isset($turma->professores)
-								@foreach($turma->professores as $professor)
-									<tr>
-										<td>{{ $professor->id }}</td>
-										<td>{{ $professor->pessoa->nome }}</td>
-										<td>{{ $professor->pivot->disciplina_id }}</td>
-									</tr>
-								@endforeach
-							@endisset
-                        </tbody>
-                    </table>
-                    <input type="hidden" class="form-control" id="professores" name="professores" />
-                </div>
+				<div class="form-group col-md-6">
+					<label for="turma">Turma</label>
+					<input type="text" class="form-control" id="turma" value="{{ $turma->nome_turma }}" disabled />
+				</div>
+				<div class="form-group col-md-6">
+					<input type="hidden" name="nome_turma" id="turmaHidden" value="{{ $turma->nome_turma }}" class="form-control" />
+				</div>
 			</div>
+
 		</div><!-- /.box-body -->
 	</div>
 
 	<div class="box box-warning">
 		<div class="box-body">
-			<button class="btn btn-primary cadastrar-turma" type="button"><i class="fa fa-save fw"></i> Salvar Alterações</button>
-			<a class="btn btn-danger cadastrar-turma" href="{{ Route('home') }}"><i class="fa fa-times fw"></i> Cancelar</a>
+			<button class="btn btn-primary" type="button"><i class="fa fa-save fw"></i> Salvar Alterações</button>
+			<a class="btn btn-danger" href="{{ Route('turma') }}"><i class="fa fa-times fw"></i> Cancelar</a>
 		</div>
 	</div>
 

@@ -125,9 +125,7 @@ class TurmaController extends Controller {
                                     ->join('turmas', 'turmas.id', '=', 'professor_has_turmas.turma_id')
                                     ->join('disciplinas', 'disciplinas.id', '=', 'professor_has_turmas.disciplina_id')
                                     ->join('pessoas', 'pessoas.id', '=', 'professors.pessoa_id')
-                                    ->where([
-                                        ['turmas.id' ,'=', $request->id_turma]
-                                    ])
+                                    ->where([['turmas.id' ,'=', $request->id_turma]])
                                     ->select([
                                         'disciplinas.id as id_disciplina', 'disciplinas.disciplina as nome_disciplina', 
                                         'pessoas.nome as nome_professor', 'professors.id as id_professor'
@@ -204,6 +202,12 @@ class TurmaController extends Controller {
         return view('turma.grade-de-professores', compact('turma', 'disciplinas', 'professores', 'disciplina_ids', 'professor_ids'));
     }
 
+    /**
+     * 
+     * @* @param string $nomeTurma
+     * 
+     * @return JSON
+     */
     public function nomeTurma($nomeTurma) {
         $i = 0;
         do {
@@ -214,6 +218,27 @@ class TurmaController extends Controller {
         return json_encode(array(
             'nomeTurma' => $nomeTurma.($i)
         ));
+    }
+
+    /**
+     * 
+     * @* @param int $idDisciplina
+     * @* @param int $idProfessor
+     * 
+     * @return JSON
+     */
+    public function getTurmas($idDisciplina, $idProfessor) {
+        $turmas = ProfessorHasTurma::join('professors', 'professors.id', '=', 'professor_has_turmas.professor_id')
+                            ->join('turmas', 'turmas.id', '=', 'professor_has_turmas.turma_id')
+                            ->join('disciplinas', 'disciplinas.id', '=', 'professor_has_turmas.disciplina_id')
+                            ->where([
+                                ['professors.id', '=', $idProfessor],
+                                ['disciplinas.id', '=', $idDisciplina]
+                            ])
+                            ->select('turmas.id', 'turmas.nome_turma')
+                            ->get();
+
+        return json_encode($turmas);
     }
 
     /**

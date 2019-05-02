@@ -43,9 +43,9 @@
             <li class="treeview">
                 <a href="#"><i class="fa fa-laptop fw"></i> <span>Administrativo</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ Route('professor') }}"><i class="fa fa-circle-o fw"></i> Professor</a></li>
-                    <li><a href="{{ Route('aluno') }}"><i class="fa fa-circle-o fw"></i> Aluno</a></li>
-                    <li><a href="{{ Route('funcionario') }}"><i class="fa fa-circle-o fw"></i> Funcionário</a></li>
+                    <li><a href="{{ Route('professor') }}"><i class="fa fa-circle-o fw"></i> Professores</a></li>
+                    <li><a href="{{ Route('aluno') }}"><i class="fa fa-circle-o fw"></i> Alunos</a></li>
+                    <li><a href="{{ Route('funcionario') }}"><i class="fa fa-circle-o fw"></i> Funcionários</a></li>
                     <li><a href="#"><i class="fa fa-circle-o fw"></i> Financeiro</a></li>
                 </ul>
             </li>
@@ -56,19 +56,19 @@
                     <li><a href="#"><i class="fa fa-circle-o fw"></i> Materiais de Consumo</a></li>
                     <li><a href="#"><i class="fa fa-circle-o fw"></i> Bens Patrimoniais</a></li>
                     <li><a href="{{ Route('cargo') }}"><i class="fa fa-circle-o fw"></i> Cargos e Funções</a></li>
-                    <li><a href="{{ Route('fornecedor') }}"><i class="fa fa-circle-o fw"></i> Fornecedor</a></li>
+                    <li><a href="{{ Route('fornecedor') }}"><i class="fa fa-circle-o fw"></i> Fornecedores</a></li>
                 </ul>
             </li>
             
             <li class="treeview">
                 <a href="#"><i class="fa fa-users fw"></i> <span>Pedagógico</span> <i class="fa fa-angle-left pull-right"></i></a>
                 <ul class="treeview-menu">
-                    <li><a href="{{ Route('turma') }}"><i class="fa fa-circle-o fw"></i> Turma</a></li>
+                    <li><a href="{{ Route('turma') }}"><i class="fa fa-circle-o fw"></i> Turmas</a></li>
                     <li><a href="{{ Route('disciplina') }}"><i class="fa fa-circle-o fw"></i> Cadastrar/Alterar Disciplina</a></li>
                     <li class="treeview">
                         <a href="#"><i class="fa fa-circle-o fw"></i> <span>Aluno</span> <i class="fa fa-angle-left pull-right"></i></a>
                         <ul class="treeview-menu">
-                            <li><a href="#"><i class="fa fa-circle-o fw"></i> Lançar Nota</a></li>
+                            <li><a href="{{ Route('view-lancar-nota') }}"><i class="fa fa-circle-o fw"></i> Lançar Nota</a></li>
                             <li><a href="#"><i class="fa fa-circle-o fw"></i> Lançar Frequência</a></li>
                         </ul>
                     </li>

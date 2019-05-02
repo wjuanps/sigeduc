@@ -120,7 +120,7 @@
 	<div class="box box-warning">
 		<div class="box-body">
 			<button class="btn btn-primary cadastrar-turma" type="button"><i class="fa fa-save fw"></i> Salvar Alterações</button>
-			<a class="btn btn-danger cadastrar-turma" href="{{ Route('turma') }}"><i class="fa fa-times fw"></i> Cancelar</a>
+			<a class="btn btn-danger" href="{{ Route('turma') }}"><i class="fa fa-times fw"></i> Cancelar</a>
 		</div>
 	</div>
 

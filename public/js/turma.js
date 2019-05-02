@@ -58,44 +58,46 @@ $(document).ready(function () {
  * @returns void
  */
 var nomeTurma = function (modalidade, serie, turno) {
-    let _nomeTurma = $('#turma').val().substring(0, 4);
-    if (!!turno && !!serie && !!modalidade) {
-        if (modalidade !== 'EJA') {
-            let _modalidade = modalidade.split(' ');
-            _modalidade = _modalidade.map(function (e) {
-                return e.substring(0, 1);
-            });
-            modalidade = _modalidade.join('');
-        }
-
-        serie = (modalidade === "EJA") ? serie.split('-').join('') : serie.substring(0, 1);
-        turno = turno.substring(0, 1);
-
-        _nomeTurma = _nomeTurma.concat(modalidade).concat(turno).concat(serie);
-
-        $.ajax({
-            type: 'GET',
-            url: '/turma/get/nome-turma/' + _nomeTurma,
-            dataType: 'json',
-            success: function (response) {
-                if (!!response) {
-                    try {
-                        $('#turma').val(response.nomeTurma);
-                        $('#turmaHidden').val(response.nomeTurma);
-                    } catch (error) {
-                        console.error(error);
-                    }
-                }
-            },
-            error: function (error) {
-                console.error(error);
+    try {
+        let _nomeTurma = $('#turma').val().substring(0, 4);
+        if (!!turno && !!serie && !!modalidade) {
+            if (modalidade !== 'EJA') {
+                let _modalidade = modalidade.split(' ');
+                _modalidade = _modalidade.map(function (e) {
+                    return e.substring(0, 1);
+                });
+                modalidade = _modalidade.join('');
             }
-        });
 
-    } else {
-        $('#turma').val(_nomeTurma);
-        $('#turmaHidden').val(_nomeTurma);
-    }
+            serie = (modalidade === "EJA") ? serie.split('-').join('') : serie.substring(0, 1);
+            turno = turno.substring(0, 1);
+
+            _nomeTurma = _nomeTurma.concat(modalidade).concat(turno).concat(serie);
+
+            $.ajax({
+                type: 'GET',
+                url: '/turma/get/nome-turma/' + _nomeTurma,
+                dataType: 'json',
+                success: function (response) {
+                    if (!!response) {
+                        try {
+                            $('#turma').val(response.nomeTurma);
+                            $('#turmaHidden').val(response.nomeTurma);
+                        } catch (error) {
+                            console.error(error);
+                        }
+                    }
+                },
+                error: function (error) {
+                    console.error(error);
+                }
+            });
+
+        } else {
+            $('#turma').val(_nomeTurma);
+            $('#turmaHidden').val(_nomeTurma);
+        }
+    } catch (error) { }
 }
 
 /**
@@ -143,20 +145,21 @@ var buscarProfessores = function (id) {
 
 /**
  * 
- * @param {*} id 
+ * @param {*} idProfessor 
+ * @param {*} idTurma 
  */
-var buscarDisciplinas = function (id) {
+var buscarDisciplinas = function (idProfessor, idTurma) {
     $.ajax({
         type: 'GET',
-        url: '/professor/get/disciplinas/' + id,
+        url: '/professor/get/disciplinas/' + idProfessor + '/' + idTurma,
         dataType: 'json',
         success: function (response) {
             let _select = $('.select-disciplina');
             _select.empty();
             if (!!response) {
                 try {
-                    diarioClasse.idProfessor = id;
-                    _select.append("<option selected='selected'>Selecione a Disciplina</option>");
+                    diarioClasse.idProfessor = idProfessor;
+                    _select.append("<option value=''>Selecione</option>");
                     response.forEach(function (e) {
                         _select.append("<option value='" + e.id + "'>" + e.disciplina + "</option>");
                     });
@@ -173,20 +176,20 @@ var buscarDisciplinas = function (id) {
 
 /**
  * 
- * @param {*} id 
+ * @param {*} idDisciplina 
  */
-var buscarTurmas = function (id) {
+var buscarTurmas = function (idDisciplina) {
     $.ajax({
         type: 'GET',
-        url: '/turma/get/turmas/'.concat(id + '/').concat(diarioClasse.idProfessor),
+        url: '/turma/get/turmas/'.concat(idDisciplina + '/').concat(diarioClasse.idProfessor),
         dataType: 'json',
         success: function (response) {
             let _select = $('.select-turma');
             _select.empty();
             if (!!response) {
                 try {
-                    diarioClasse.idDisciplina = id;
-                    _select.append("<option selected='selected'>Selecione a Disciplina</option>");
+                    diarioClasse.idDisciplina = idDisciplina;
+                    _select.append("<option value=''>Selecione</option>");
                     response.forEach(function (e) {
                         _select.append("<option value='" + e.id + "'>" + e.nome_turma + "</option>");
                     });

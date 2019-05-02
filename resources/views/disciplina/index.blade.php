@@ -12,6 +12,7 @@
 @endsection
 
 @section('content')
+
 <div class="box box-info">
 	<div class="box-header">
 		<a href="{{ Route('cadastrar-disciplina') }}" class="btn btn-primary"><i class="fa fa-plus-square fw"></i>&nbsp;&nbsp;Novo</a>
@@ -35,7 +36,12 @@
 							<td>{{ $disciplina->id }}</td>
 							<td>{{ $disciplina->disciplina }}</td>
 							<td>{{ $disciplina->descricao }}</td>
-							<td>{{ count($disciplina->professores) }}</td>
+							<td>
+								<span data-toggle="tooltip" title="{{ count($disciplina->professores) . ' Professores' }}" class="badge bg-red">
+									{{ count($disciplina->professores) }} 
+								</span>&nbsp;&nbsp;&nbsp;<span> - </span>
+								<button class="btn btn-link btn-sm" title="Ver todos" data-toggle="tooltip" ><i class="fa fa-external-link fw"></i></button>
+							</td>
 							<td>
 								<div class="btn-group">
 									<a href="{{ Route('editar-disciplina', $disciplina->id) }}" class="btn btn-info btn-flat btn-sm">Editar</a>

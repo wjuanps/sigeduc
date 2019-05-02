@@ -31,7 +31,7 @@
 
 					<div class="form-group col-md-3">
 						<label for="modalidade">Modalidade</label>
-						<select id="modalidade" name="modalidade" onchange="selecionarSerie(this.value)" class="form-controll select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
+						<select id="modalidade" name="modalidade" required onchange="selecionarSerie(this.value)" class="form-controll select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
 							<option value="">Escolha a Modalidade</option>
 							<option value="Ensino Fundamental">Ensino Fundamental</option>
 							<option value="Ensino Médio">Ensino Médio</option>
@@ -41,14 +41,14 @@
 
 					<div class="form-group col-md-3">
 						<label for="serie">Série</label>
-						<select id="serie" name="serie" class="form-controll select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
+						<select id="serie" name="serie" required class="form-controll select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
 							<option value="">Escolha a Série</option>
 						</select>
 					</div>
 
 					<div class="form-group col-md-3">
 						<label for="turno">Turno</label>
-						<select id="turno" name="turno" class="form-controll select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
+						<select id="turno" name="turno" required class="form-controll select2 select2-hidden-accessible" style="width: 100%;" tabindex="-1" aria-hidden="true">
 							<option value="">Escolha o Turno</option>
 							<option value="Matutino">Matutino</option>
 							<option value="Vespertino">Vespertino</option>
@@ -141,7 +141,7 @@
 											<td>{{ $turma->serie }}</td>
 											<td>{{ $turma->modalidade }}</td>
 											<td>{{ $turma->turno }}</td>
-											<td>{{ ((isset($turma->pivot->ano)) ? $turma->pivot->ano : '') }}</td>
+											<td>{{ ((isset($turma->ano)) ? $turma->ano : '') }}</td>
 											<td>
 												<input type="hidden" name="is_repetente[]" value="{{ $turma->is_repetente }}" />
 												{{ ((isset($turma->pivot->is_repetente)) ? (($turma->pivot->is_repetente) ? 'Sim' : 'Não') : (($turma->is_repetente) ? 'Sim' : 'Não')) }}

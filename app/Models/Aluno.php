@@ -6,6 +6,7 @@ use Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Arr;
 
 /**
@@ -123,6 +124,29 @@ class Aluno extends Model {
                 }
             }
         });
+    }
+
+    /**
+     * 
+     * @* @param int $idTurma
+     * 
+     * @return Collection
+     */
+    public static function getAlunos(string $nomeAluno) : Collection {
+        return (
+            Aluno::join('pessoas', 'pessoas.id', '=', 'alunos.pessoa_id')
+                ->join('aluno_has_turmas', 'aluno_has_turmas.aluno_id', '=', 'alunos.id')
+                ->join('turmas', 'aluno_has_turmas.turma_id', '=', 'turmas.id')
+                ->where([
+                    ['pessoas.nome', 'like', '%'. $nomeAluno .'%']
+                ])
+                ->select([
+                    'alunos.id', 'alunos.matricula', 'pessoas.nome', 'pessoas.cpf',
+                    'turmas.nome_turma', 'turmas.id as turma_id',
+                    'turmas.serie', 'turmas.modalidade', 'turmas.ano',
+                ])
+                ->get()
+        );
     }
 
     /**

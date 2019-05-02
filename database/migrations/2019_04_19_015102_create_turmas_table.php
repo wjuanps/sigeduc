@@ -27,7 +27,7 @@ class CreateTurmasTable extends Migration {
             $table->string('descriao_turma', 100)->nullable();
             $table->string('descricao_serie', 100)->nullable();
             $table->dateTime('cancelado_em')->nullable();
-            $table->dateTime('desativada_em')->nullale();
+            $table->dateTime('desativada_em')->nullable();
             $table->tinyInteger('is_cancelada')->default(0);
             $table->tinyInteger('is_active')->default(1);
             $table->timestamps();
